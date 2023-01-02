@@ -44,6 +44,14 @@ theme.settings.sliders.config.prevArrow = '<span class="arrow-l"><svg version="1
 theme.settings.sliders.config.nextArrow   = '<span class="arrow-r"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="20" viewBox="0 0 20 20"><path fill="#000000" d="M0 15c0 0.128 0.049 0.256 0.146 0.354 0.195 0.195 0.512 0.195 0.707 0l8.646-8.646 8.646 8.646c0.195 0.195 0.512 0.195 0.707 0s0.195-0.512 0-0.707l-9-9c-0.195-0.195-0.512-0.195-0.707 0l-9 9c-0.098 0.098-0.146 0.226-0.146 0.354z"></path></svg></span>';
 theme.settings.productGallery = false;
 
+theme.settings.tabela = [];
+theme.settings.tabela.kcal = 2000;
+theme.settings.tabela.carb = 150;
+theme.settings.tabela.prot = 100;
+theme.settings.tabela.gord = 50;
+theme.settings.tabela.gord_t = 10;
+theme.settings.tabela.sod_mg = 500;
+
 theme.settings.invertHeader = false;
 
 theme.settings.sliders.benefitsStripe = {
@@ -173,6 +181,33 @@ theme.settings.sliders.testimonials = {
 theme.settings.sliders.products = {
     infinite: true,
     slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: false,
+    prevArrow: theme.settings.sliders.config.prevArrow,
+    nextArrow: theme.settings.sliders.config.nextArrow,
+    responsive: [
+        {
+        breakpoint: 1024,
+        settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1,            
+            centerMode:true
+        }
+        },
+        {
+        breakpoint: 480,
+        settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            centerMode:true
+        }
+        }
+    ]  
+}
+
+theme.settings.sliders.relateds = {
+    infinite: true,
+    slidesToShow: 2,
     slidesToScroll: 1,
     autoplay: false,
     prevArrow: theme.settings.sliders.config.prevArrow,
@@ -493,7 +528,12 @@ theme.titulos.push({
     alvo: '.vitrine-lancamento',
     titulo: 'Lançamentos',
     subtitulo: 'Diretamente da nossa cozinha para sua marmitinha'
-})
+});
+theme.titulos.push({
+    alvo: '.aproveite-tambem',
+    titulo: 'Aproveite e leve também',
+    subtitulo: 'Separamos algumas opções que combinam com este prato'
+});
 
 
 theme.comoFunciona = [];
@@ -547,8 +587,8 @@ theme.functions = [];
 theme.functions.titulos = function(){
     $.each(theme.titulos,function(k,item){
         if($(item.alvo).length > 0){
-            if($(item.alvo).find('strong').text(item.titulo));
-            if($(item.alvo).find('strong').after('<small>' + item.subtitulo + '</small>'));
+            if($(item.alvo).children('strong,h4').text(item.titulo));
+            if($(item.alvo).children('strong,h4').after('<small>' + item.subtitulo + '</small>'));
         }
     })
 };
@@ -926,6 +966,7 @@ theme.functions.init = function(){
         try{
             $(document).ready(function(){
                 theme.functions[theme.currentPage]();
+                theme.functions.productListActions();    
             });
         }catch(e){}
 
@@ -940,7 +981,6 @@ theme.functions.init = function(){
         theme.functions.resizeBanners();
         theme.functions.unwrapProductList();
         theme.functions.flags();    
-        theme.functions.productListActions();    
         theme.functions.productListImageSize(theme.settings.imageSize);
         theme.functions.unflexBanners();
         theme.functions.bannerFromPanelFunctions();        
@@ -1042,7 +1082,7 @@ theme.functions.productListActions = function(){
         let url = $(this).find('.info-produto > a:first-child').attr('href');       
         $(this) .find('.imagem-produto').wrap('<a href="'+ url +'"></a>');
         let block = $('<div id="theme_list-functions"></div>');
-        if(hasVariants && id){
+        if(hasVariants && id && $('.pagina-produto').length == 0){
             block.append($('<a href="/carrinho/produto/'+ id +'/adicionar" class="theme_buttonBuy-ajax">'+ theme.icon.cart +'<span>'+ theme.lang.productListAdd +'</span></a>'));
         }else{
             block.append($('<a href="'+ url +'">'+ theme.icon.seeMore +'<span>'+ theme.lang.productListDetail +'</span></a>'));
@@ -1293,6 +1333,12 @@ theme.functions['pagina-produto'] = function(){
     $('.f_product-col-1 .f_extra_content').append('<div theme-content="tabela-nutricional"></div>');
     $('.f_product-col-1 .f_extra_content').append('<div theme-content="produtos-relacionados"></div>');
     $('.f_product-col-1 .f_extra_content').append('<div theme-content="modo-preparo"></div>');
+    $('.f_product-col-1 .f_extra_content').append('<div theme-content="descricao-html"></div>');
+
+    $('.abas-custom').appendTo('[theme-content="descricao-html"]');
+    $('.aproveite-tambem').appendTo('[theme-content="produtos-relacionados"]');
+    $('.aproveite-tambem > ul').apx_slick(theme.settings.sliders.relateds);
+
     $('.f_product-col-2-fix .codigo-produto').after('<div theme-content="labels"></div>');
 
 
@@ -1316,7 +1362,7 @@ theme.functions['pagina-produto'] = function(){
     // }    
 
     if($('meta[name="description"]').attr('content').length > 0 && theme.settings.productExcerpt){
-        $('<p class="theme_excerpt">'+ $('meta[name="description"]').attr('content') +'</p>').insertAfter('.codigo-produto');
+        $('<p class="theme_excerpt">'+ $('meta[name="description"]').attr('content') +'</p>').appendTo('.info-principal-produto');
     }
     
 
@@ -1946,6 +1992,91 @@ $(window).load(function(){
             $.each(infos,function(k,info){
                 info_box.append('<span>'+ info +'</span>');                
             });
+
+            //tabela nutricional
+            let tabela = [];
+            tabela.kcal = parseFloat(item.kcal);
+            tabela.carb_g = parseFloat(item.carb_g);
+            tabela.prot_g = parseFloat(item.prot_g);
+            tabela.gord_g = parseFloat(item.gord_g);
+            tabela.gord_t_g = parseFloat(item.gord_t_g);
+            tabela.sod_mg = parseFloat(item.sod_mg);
+
+            // theme.settings.tabela.kcal = 2000;
+            // theme.settings.tabela.carb = 150;
+            // theme.settings.tabela.prot = 100;
+            // theme.settings.tabela.gord = 50;
+            // theme.settings.tabela.gord_t = 10;
+            // theme.settings.tabela.sod_mg = 500;
+
+            let block = '<div class="nutricao-item"><span>{title}<b>{percent} - {current} {measure}</b></span><div class="graph" data-table="{max}" data-current="{current}"><span style="width:{percent}"></span></div></div>'
+            
+            let tabela_box = $('[theme-content="tabela-nutricional"]');
+            if(tabela.kcal){
+                let oObj = block;
+                oObj = oObj.replaceAll('{title}','Valor Energético');
+                oObj = oObj.replaceAll('{measure}','kcal');
+                oObj = oObj.replaceAll('{max}',theme.settings.tabela.kcal);
+                oObj = oObj.replaceAll('{current}',tabela.kcal);
+                oObj = oObj.replaceAll('{percent}', ((tabela.kcal / theme.settings.tabela.kcal) * 100).toFixed(0) + '%');
+                tabela_box.append(oObj);
+            }
+
+            if(tabela.carb_g){
+                let oObj = block;
+                oObj = oObj.replaceAll('{title}','Carboidratos');
+                oObj = oObj.replaceAll('{measure}','g');
+                oObj = oObj.replaceAll('{max}',theme.settings.tabela.carb);
+                oObj = oObj.replaceAll('{current}',tabela.carb_g);
+                oObj = oObj.replaceAll('{percent}', ((tabela.carb_g / theme.settings.tabela.carb) * 100).toFixed(0) + '%');
+                tabela_box.append(oObj);
+            }
+
+            if(tabela.prot_g){
+                let oObj = block;
+                oObj = oObj.replaceAll('{title}','Proteínas');
+                oObj = oObj.replaceAll('{measure}','g');
+                oObj = oObj.replaceAll('{max}',theme.settings.tabela.prot);
+                oObj = oObj.replaceAll('{current}',tabela.prot_g);
+                oObj = oObj.replaceAll('{percent}', ((tabela.prot_g / theme.settings.tabela.prot) * 100).toFixed(0) + '%');
+                tabela_box.append(oObj);
+            }
+
+            if(tabela.gord_g){
+                let oObj = block;
+                oObj = oObj.replaceAll('{title}','Gorduras');
+                oObj = oObj.replaceAll('{measure}','g');
+                oObj = oObj.replaceAll('{max}',theme.settings.tabela.gord);
+                oObj = oObj.replaceAll('{current}',tabela.gord_g);
+                oObj = oObj.replaceAll('{percent}', ((tabela.gord_g / theme.settings.tabela.gord) * 100).toFixed(0) + '%');
+                tabela_box.append(oObj);
+            }
+
+            if(tabela.gord_t_g){
+                let oObj = block;
+                oObj = oObj.replaceAll('{title}','Gorduras Trans');
+                oObj = oObj.replaceAll('{measure}','g');
+                oObj = oObj.replaceAll('{max}',theme.settings.tabela.gord_t);
+                oObj = oObj.replaceAll('{current}',tabela.gord_t_g);
+                oObj = oObj.replaceAll('{percent}', ((tabela.gord_t_g / theme.settings.tabela.gord_t) * 100).toFixed(0) + '%');
+                tabela_box.append(oObj);
+            }
+
+            if(tabela.sod_mg){
+                let oObj = block;
+                oObj = oObj.replaceAll('{title}','Sódio');
+                oObj = oObj.replaceAll('{measure}','mg');
+                oObj = oObj.replaceAll('{max}',theme.settings.tabela.sod_mg);
+                oObj = oObj.replaceAll('{current}',tabela.sod_mg);
+                oObj = oObj.replaceAll('{percent}', ((tabela.sod_mg / theme.settings.tabela.sod_mg) * 100).toFixed(0) + '%');
+                tabela_box.append(oObj);
+            }
+
+            if($('[theme-content="tabela-nutricional"] *').length > 0){
+                tabela_box.before('<h2 class="f_product-section-title">Informação nutricional</h2>');
+                tabela_box.prepend('<div class="f_tabela-nutricional-expert"><span>Baseado em uma dieta de <input type="text" value="2000"/> kcal por dia</span> <button type="button"><img src="https://cdn.awsli.com.br/2517/2517596/arquivos/gym.svg"/><span>Editar macros</span></button></div>');
+
+            }
             
         }
     }

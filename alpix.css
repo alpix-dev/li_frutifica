@@ -770,6 +770,7 @@ textarea:focus{
     color: #fff;
     text-transform: uppercase;
     font-weight: 600;
+    
 }
 #theme_sideCart .subtotal{text-align:center;}
 #theme_sideCart .subtotal strong{margin-right:0;}
@@ -1264,17 +1265,19 @@ body #rodape .gateways-rodape{
 } */
 
 .theme_excerpt{
-    font-size: 13px;
-    padding: 0px 0 20px 0;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-    margin-bottom: 20px;
-    line-height: 24px;
+    font-size: 20px;
+    /* padding: 0px 0 20px 0; */
+    /* border-bottom: 1px solid rgba(0,0,0,0.1); */
+    margin: 30px 0;
+    color:var(--cinza);
+    line-height: 32px;
+    font-weight:300;
 }
 .abas-custom .tab-pane *{
     font-size: 13px;
     line-height: 24px;
 }
-.codigo-produto *{color: var(--titleFontColor)!important;}
+.codigo-produto *{color: var(--cinza)!important;font-size:16px;font-weight:normal}
 
 .thumbs-vertical .elastislide-carousel ul li a{
     border:0;    
@@ -1315,13 +1318,16 @@ body #rodape .gateways-rodape{
 .pagina-produto .secao-principal > .produto > .row-fluid:first-child .acoes-produto .comprar a,
 .produto .principal .comprar .botao-comprar{
     width: 100%;
-    padding: 5px 0;
-    font-family: var(--titleFontFamily);
-    text-transform: var(--titleFontTransform);
-    font-weight: var(--titleFontWeight);
-    font-size: calc(var(--titleFontSize) * 0.7);
+    box-shadow:0px 4px 3px rgba(35, 31, 32, 0.2);
+    padding: 7px 40px!important;
+    box-sizing: border-box;
+    font-family: "Lato";
+    text-transform:uppercase;
+    font-weight: 700;
+    font-size: 20px;
     height: auto;
-    box-sizing:border-box
+    box-sizing:border-box;
+    background-color: var(--verde_lime);
 }
 .pagina-produto .secao-principal > .produto > .row-fluid:first-child .acoes-produto[data-variacao-id=""][style="display: none;"]{display:none!important}
 .pagina-produto .secao-principal > .produto > .row-fluid:first-child .acoes-produto[style="display: block;"]:after,
@@ -1368,23 +1374,30 @@ body #rodape .gateways-rodape{
 }
 
 /* .produto .conteiner-imagem>div{max-width:90%;} */
-.produto .principal{padding-left:10%;}
-
+.produto .principal{padding-left:2.5rem;}
+.produto .info-principal-produto .nome-produto{
+    border: 0!important;
+    padding: 0;
+}
 .codigo-produto{
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: flex-start;
+    gap:10px;
 }
 .codigo-produto:after{display:none!important;}
-.codigo-produto > *{float:none;margin:0!important}
+.codigo-produto > *:not(.hide){float:none;margin:0!important;display:flex;gap:10px;}
+.codigo-produto > *:not(:last-child):after{
+    content:"|";
+}
 
 .produto .codigo-produto {
     font-weight: var(--productPriceStrikeFontWeight);
     font-size: var(--productPriceStrikeFontSize) * 0.7;
     color: var(--productPriceStrikeColor);
-    padding: 0 0 15px 0;
+    padding:0;
     margin-bottom: 20px;
-    border-bottom: 1px solid #f8f8f8;
+    border:0;
 }
 .lista-favoritos{text-decoration:none!important;}
 .lista-favoritos svg{
@@ -1399,6 +1412,7 @@ body #rodape .gateways-rodape{
 .pagina-produto .cep{
     border-top: 1px solid #e5e5e5!important;
     padding-top: 20px;
+    margin-top:10px
 }
 .pagina-produto .cep label{
     display: block;
@@ -3370,6 +3384,7 @@ body:not(.pagina-inicial) .secao-banners .banner.cheio img{
 #theme_categorySlider{padding: 0 1rem}
 
 #theme_categorySlider .slick-list{margin:0 -20px;}
+h4 + small,
 .titulo-categoria small{
     font-size: 20px;
     color: var(--cinza);
@@ -3679,11 +3694,19 @@ body:not(.pagina-inicial) .secao-banners .banner.cheio img{
 }
 .produto-sobrepor{display:none}
 
+.pagina-produto .f_product-col-1{
+    max-width:calc(100% - 680px);
+}
 .pagina-produto .f_product-col-2-fix{
-    max-width:620px;
+    max-width:650px;
 }
 
-.f_product-section-title{
+.f_extra_content [theme-content]:not(:empty){margin-bottom:5rem}
+
+.f_extra_content .listagem-item [theme-content="labels"]{margin-bottom:5px!important}
+
+.f_product-section-title,
+[theme-content="produtos-relacionados"] h4.titulo{
     font-family: var(--titleFontFamily);
     text-transform: var(--titleFontTransform);
     font-weight: var(--titleFontWeight);
@@ -3699,6 +3722,7 @@ body:not(.pagina-inicial) .secao-banners .banner.cheio img{
     border: 0;
     margin: 3rem 0 1rem 0;
 }
+[theme-content="produtos-relacionados"] h4.titulo:after,
 .f_product-section-title:after{
     content: '';
     background-image: url(https://cdn.awsli.com.br/2517/2517596/arquivos/title_after.svg);
@@ -3709,11 +3733,17 @@ body:not(.pagina-inicial) .secao-banners .banner.cheio img{
     margin-left: 5px;
     background-repeat: no-repeat;
 }
+[theme-content="produtos-relacionados"] h4.titulo + small{
+    font-size: 16px;
+    line-height: initial;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
+}
 .f_extra_content{padding:0 4rem;}
 
 [theme-content="lista-ingredientes"]{
     display: flex;
-    gap: 30px;
+    gap: 27px;
     flex-wrap: wrap;
     align-items: flex-start;
 }
@@ -3749,3 +3779,108 @@ body:not(.pagina-inicial) .secao-banners .banner.cheio img{
         top: 150px;
     }
 }
+
+[theme-content="tabela-nutricional"]{}
+[theme-content="tabela-nutricional"] .nutricao-item{
+    display:flex;
+    flex-direction: column;
+    gap:10px;
+    margin-bottom:30px;
+}
+[theme-content="tabela-nutricional"] .nutricao-item > span{
+    font-size: 16px;    
+    color: var(--preto);
+    display:flex;
+    gap:15px;
+}
+[theme-content="tabela-nutricional"] .nutricao-item > span b{}
+[theme-content="tabela-nutricional"] .nutricao-item > .graph{
+    background:#d9d9d9;
+    height:10px;
+    border-radius:5px;
+}
+[theme-content="tabela-nutricional"] .nutricao-item > .graph span{
+    max-width:100%;
+    background: var(--amarelo);
+    height:10px;
+    border-radius:5px;
+    display:block;
+}
+
+.lista-favoritos{display:none!important}
+
+[theme-content="tabela-nutricional"] .f_tabela-nutricional-expert{
+    display:flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+[theme-content="tabela-nutricional"] .f_tabela-nutricional-expert > span{
+    font-size:20px;
+    color:var(--cinza);
+    display:flex;
+    gap: 15px;
+    align-items: center;
+}
+[theme-content="tabela-nutricional"] .f_tabela-nutricional-expert > span input{
+    background: #f8f8f8;
+    border-radius: 5px!important;
+    font-size: 20px;
+    color: var(--preto);
+    border: 0!important;
+    min-width: unset;
+    width: 75px;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+[theme-content="tabela-nutricional"] .f_tabela-nutricional-expert > button{
+    display:flex;
+    align-items: center;
+    gap:10px;
+    background:var(--vermelho);
+    box-shadow:0px 4px 3px rgba(35, 31, 32, 0.2);
+    border-radius:30px;
+    padding:8px 15px;
+}
+[theme-content="tabela-nutricional"] .f_tabela-nutricional-expert > button img{height:20px;}
+[theme-content="tabela-nutricional"] .f_tabela-nutricional-expert > button span{
+    font-size:13px;
+    font-weight:700;
+    text-transform: uppercase;
+    color:#fff;
+}
+
+[theme-content="produtos-relacionados"] .slick-arrow{
+    top:145px
+}
+[theme-content="produtos-relacionados"] .slick-arrow.arrow-l{left:-15px}
+[theme-content="produtos-relacionados"] .slick-arrow.arrow-r{right:-15px}
+
+[theme-content="descricao-html"]{display:none!important}
+
+.pagina-produto .disponibilidade-produto{
+    display:none!important;
+}
+
+.produto .acoes-produto .preco-produto.destaque-parcela .preco-promocional{
+    font-family: var(--productPriceFontFamily);
+    font-weight: var(--productPriceFontWeight);
+    font-size: 32px;
+    color: var(--productPriceColor);
+    vertical-align: middle;
+}
+.produto .acoes-produto .preco-produto.destaque-parcela .preco-venda{
+    color: #666;
+    font-weight: 700;
+    font-size: 20px;
+    vertical-align: middle;
+    margin: 0 15px 0 0!important;
+}
+.produto .principal .acoes-produto{
+    display:flex;align-items:center;
+    justify-content: space-between;
+}
+.produto .principal .acoes-produto:after{display:none}
+.produto .principal .acoes-produto .preco-produto,
+.produto .principal .acoes-produto .preco-produto *{margin-bottom:0;margin-bottom:0}
