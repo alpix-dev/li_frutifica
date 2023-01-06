@@ -802,6 +802,15 @@ theme.functions.bannerFromPanelFunctions = function(ref){
              //$(this).closest('li').remove();
              $(this).closest('li').length > 0 ? $(this).closest('li').remove() : $(this).parent().remove();
          }
+        
+        //COVER CATEGORY 
+        if(trigger.includes('[foto-categoria]')){
+            $(this).clone().prependTo('#corpo .conteudo'); 
+            //$(this).closest('li').remove();
+            $(this).closest('li').length > 0 ? $(this).closest('li').remove() : $(this).parent().remove();
+
+            
+        }
  
          //TESTIMONIALS SLIDER
          if(trigger.includes('[depoimento]')){
@@ -1318,6 +1327,11 @@ theme.functions['pagina-categoria'] = function(){
     // if($('.listagem-item').length <= 1){
     //     $('#theme_listing-filters').hide();
     // }
+
+    if($('.apx_categoryCover').length == 0){
+        $('#corpo .conteudo > img:first-child, #corpo .conteudo > img:first-child + h1, #corpo .conteudo > img:first-child + h1 + p').wrapAll('<div class="apx_categoryCover"></div>');
+        $('.apx_categoryCover h1, .apx_categoryCover h1 + p').wrapAll('<div class="apx_categoryCover-content"></div>');
+    }
 };
 theme.functions['pagina-busca'] = theme.functions['pagina-categoria'];
 theme.functions['pagina-marca'] = theme.functions['pagina-categoria'];
