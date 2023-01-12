@@ -30,6 +30,7 @@ theme.lang.categoriesSubtitle = "Compre sua refeição de acordo com nossas suge
 
 
 theme.settings = {};
+theme.settings.agendamento = true;
 theme.settings.sideCheckout = true;
 theme.settings.whatsappButton = false;
 theme.settings.extraPagination = true;
@@ -366,6 +367,14 @@ theme.build.header = function(template){
 
     
 };
+theme.build.headerApp = function(){
+    $('#cabecalho').html(theme.templates.headerApp).addClass('no-sticky');
+    $('#theme_header-logo').append(theme.logo);
+    
+    
+
+    
+};
 theme.build.footer = function(template){
     $('#barraNewsletter, .pagamento-selos').remove();
     $('#rodape .institucional').html('<div class="bg-gray"> <div class="conteiner"> <div class="row-fluid"> <div class="span4"> <div theme-content="logo"></div><div theme-content="store-description"></div><div theme-content="social"></div></div><div class="span8"> <div class="row-flex justify-content-between"> <div class="col-auto"> <h4>Institucional</h4> <div theme-content="pages"></div></div><div class="col-auto"> <h4>Pratos</h4> <div theme-content="categories-1"></div></div><div class="col-auto"> <h4>Kits</h4> <div theme-content="categories-2"></div></div></div></div></div></div></div><div class="bg-lime_green"> <div class="conteiner"> <div class="row-fluid"> <div class="span12"> <div theme-content="newsletter"></div></div></div></div></div></div><div class="bg-gray"> <div class="conteiner"> <div class="row-flex"> <div class="col"> <h4>Formas de Pagamento</h4> <div theme-content="payments"></div><div theme-content="gateways"></div></div><div class="col"> <h4>Selos e Segurança</h4> <div theme-content="seals"></div></div></div></div></div>');
@@ -584,6 +593,9 @@ theme.perguntasFrequentes.itens.push({
 
 
 theme.functions = [];
+theme.functions.datepicker = function(){
+    console.log('brabo');
+};
 theme.functions.titulos = function(){
     $.each(theme.titulos,function(k,item){
         if($(item.alvo).length > 0){
@@ -951,7 +963,7 @@ theme.functions.init = function(){
     theme.icon.close = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g data-name="Layer 2"><g data-name="close"><rect width="24" height="24" transform="rotate(180 12 12)" opacity="0"/><path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"/></g></g></svg>';
     theme.icon.menu = '<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 22.9998C7.44772 22.9998 7 23.4475 7 23.9998C7 24.552 7.44772 24.9998 8 24.9998V22.9998ZM40 24.9998C40.5523 24.9998 41 24.552 41 23.9998C41 23.4475 40.5523 22.9998 40 22.9998V24.9998ZM8 10.9998C7.44772 10.9998 7 11.4475 7 11.9998C7 12.552 7.44772 12.9998 8 12.9998V10.9998ZM40 12.9998C40.5523 12.9998 41 12.552 41 11.9998C41 11.4475 40.5523 10.9998 40 10.9998V12.9998ZM8 34.9998C7.44772 34.9998 7 35.4475 7 35.9998C7 36.552 7.44772 36.9998 8 36.9998V34.9998ZM40 36.9998C40.5523 36.9998 41 36.552 41 35.9998C41 35.4475 40.5523 34.9998 40 34.9998V36.9998ZM8 24.9998H40V22.9998H8V24.9998ZM8 12.9998H40V10.9998H8V12.9998ZM8 36.9998H40V34.9998H8V36.9998Z" fill="#231F20"/></svg>';
     
-    
+    theme.templates.headerApp = '<div id="f_header"> <div class="conteiner-fluid"> <div class="row-flex align-items-center"> <div class="col justify-content-center" id="theme_header-back"></div><div class="col justify-content-center" id="theme_header-logo"></div><div class="col" id="theme_header-functions-block"> <ul id="theme_header-functions"></ul> </div></div></div></div>';
     if (!theme.templates.header) theme.templates.header = '<div id="f_header"> <div class="conteiner-fluid"> <div class="row-flex align-items-center"> <div class="col"> <div class="row-flex align-items-center"> <div class="col-auto justify-content-center" id="theme_header-menu-full"><button type="button" id="theme_header-menu-trigger"></button></div><div class="col-auto justify-content-center" id="theme_header-menu-categories"></div></div></div><div class="col justify-content-center" id="theme_header-logo"></div><div class="col" id="theme_header-functions-block"><ul id="theme_header-functions"></ul></div></div></div></div>';
     if (!theme.templates.search) theme.templates.search = '<div class="theme_aside theme_search right"><div class="theme_aside-header"><button type="button" class="search-trigger" >'+ theme.icon.sideCartClose +'</button><span>'+ theme.lang.searchTitle +'</span></div><div class="theme_aside-content" id="theme_search"></div></div>';
     if (!theme.templates.account) theme.templates.account = '<div class="theme_aside theme_account right"><div class="theme_aside-header"><button type="button" class="account-trigger" >'+ theme.icon.sideCartClose +'</button><span>'+ theme.lang.accountTitle +'</span></div><div class="theme_aside-content" id="theme_account"></div></div>';
@@ -981,7 +993,9 @@ theme.functions.init = function(){
 
         $('body').append('<div class="theme_aside-shadow"></div>');
         
-        if($('.carrinho-checkout').length == 0){theme.build.header(2);theme.build.asideMenu();}
+        if($('.carrinho-checkout').length == 0){theme.build.header(2);theme.build.asideMenu();}else{
+            theme.build.headerApp();
+        }
         theme.build.footer(1);
         theme.build.search(1);    
         theme.build.account(1);    
@@ -1481,11 +1495,33 @@ theme.functions['pagina-produto'] = function(){
 
 theme.functions['pagina-carrinho'] = function(){
     if($('.carrinho-checkout').length > 0){
-        //$('.tabela-carrinho').insertBefore('#formas-pagamento-wrapper');
+        $('#formularioCheckout').before('<div class="cabecalho-interno row-fluid"> <div class="span12"> <h1 class="titulo cor-secundaria"> Finalizar Pedido<small> Preencha seus dados, escolha a modalidade de envio e efetue seu pedido.</small> </h1> </div></div>');
+        $('.tabela-carrinho').clone().insertBefore('#formas-pagamento-wrapper');
         $('.tabela-carrinho').wrap('<div class="caixa-sombreada theme_order-resume"></div>');
+        $('.resumo-compra').first().hide();
         $('<legend class="titulo cor-secundaria"><i class="icon-archive"></i>Itens do pedido</legend>').insertBefore('.tabela-carrinho');
-    }
+
+        
+        if(theme.settings.agendamento == true){
+            $('body').append('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
+            $('body').append('<script src="https://cdn.jsdelivr.net/gh/jquery/jquery-ui/ui/i18n/datepicker-pt-BR.js"></script>');
+            $('#formularioObservacao').closest('.caixa-sombreada').hide();
+            $('<div class="caixa-sombreada borda-principal" id="apx_schedule"><legend class="titulo cor-secundaria">Agendamento</legend> <div class="row-fluid"> <div class="span6 control-group"> <label class="control-label font-bold" for="">Data da entrega</label> <div class="controls"> <input type="text" id="dt_entrega" placeholder="Selecione..."> </div></div><div class="span6 control-group"> <label class="control-label font-bold" for="">Período da entrega</label> <div class="controls"> <select id="hr_entrega"> <option value="">Escolha a data...</option> </select> </div></div></div><div class="row-fluid"> <div class="span12 control-group"> <label class="control-label font-bold" for="">Observações do pedido</label> <div class="controls"> <textarea id="formularioObservacoes_2" rows="5"> </textarea> </div></div></div></div>').insertBefore($('#formularioObservacao').closest('.caixa-sombreada'));
+            $('#dt_entrega').datepicker(
+                $.datepicker.regional[ "pt-BR" ]
+            );
+        }
+
+        $('input,textarea,select').focus(function(){
+            if(!$(this).closest('.caixa-sombreada').hasClass('caixa-ativa')){
+                $('.caixa-ativa').removeClass('caixa-ativa');
+                $(this).closest('.caixa-sombreada').addClass('caixa-ativa');
+            }        
+        });
+
+    }    
 };
+
 
 theme.functions['pagina-pagina'] = function(){
     if($('.secao-principal > .coluna').length){
@@ -1557,87 +1593,6 @@ theme.worker.run = function(){
         })
     });
 };
-theme.worker.mobileFullbanner = {};
-theme.worker.mobileFullbanner.list = [];
-theme.worker.mobileFullbanner.run = function(el){    
-    if(theme.isMobile){
-        $('.banner.cheio').hide();
-        $('.banner.cheio').after('<div id="apx_fullbannerMobile"></div>');
-        let pagingLast = parseInt($('.banner.cheio .flex-control-paging > li:last-child').text());
-        $.each(theme.worker.mobileFullbanner.list, function(k,v){
-            let bn = $('<div></div>');
-            bn.append('<a href="'+ v.href +'" title="'+ v.title +'"><img  alt="'+ v.alt +'" src="'+ v.src +'"/></a>')
-            bn.appendTo('#apx_fullbannerMobile');
-        })
-        $('#apx_fullbannerMobile').apx_slick({
-            infinite: true,
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            autoplay: true,
-            autoplaySpeed: 2000,
-            arrows:false,
-            dots:true
-        });
-    }
-    console.log('theme.worker.mobileFullbanner OK');
-};
-
-theme.worker.sizeTable = {};
-theme.worker.sizeTable.list = [];
-theme.worker.sizeTable.config = {text:"Guia de Medidas", icon:"",backgroundColor: "#000",textColor:"#fff", target:".atributo-comum .cor-secundaria:contains(Tamanho)"};
-theme.worker.sizeTable.run = function(el){    
-    //const sizeTableProduct = parseInt($('.pagina-produto').attr('class').replace('pagina-produto produto-','').trim());
-    const sizeTableProduct = $('.pagina-produto [itemprop="sku"]').text().trim();
-    const sizeTableBrand = $('.pagina-produto [itemprop="brand"] [itemprop="name"]').length > 0 ? $('.pagina-produto [itemprop="brand"] [itemprop="name"]').attr('content').toLowerCase() : '';
-    
-    
-    var themeSizeTable = theme.worker.sizeTable.list.filter( el => el.identifier == sizeTableProduct);
-    if(themeSizeTable.length == 0){
-        themeSizeTable = theme.worker.sizeTable.list.filter( el => el.identifier == sizeTableBrand);
-    }
-    if(themeSizeTable.length == 0){
-        themeSizeTable = theme.worker.sizeTable.list.filter( el => el.identifier == "x");
-    }
-
-    if(themeSizeTable.length > 0){
-        $(theme.worker.sizeTable.config.target).before("<div id='tabela-medidas'><a href='"+ themeSizeTable[0].src +"' class='theme_worker-sizeTable' style='"+ (theme.worker.sizeTable.config.textColor != undefined ? "color:" +  theme.worker.sizeTable.config.textColor + ";" : "") + " " + (theme.worker.sizeTable.config.backgroundColor != undefined ? "background-color:" +  theme.worker.sizeTable.config.backgroundColor + ";" : "") + "'>"+ theme.worker.sizeTable.config.icon + "" + theme.worker.sizeTable.config.text +"</a></div>");
-        $(".theme_worker-sizeTable").fancybox();
-    }   
-    console.log('theme.worker.sizeTable OK');
-};
-
-// theme.worker.testimonials = {};
-// theme.worker.testimonials.list = [];
-// theme.worker.testimonials.config = {title:"O que dizem por ai", ratingColor: "#f9d141", nameColor: "#000", descriptionColor:"#666", slidesDesktop: 3, slidesMobile: 1, target: "#blank-home-position3"};
-// theme.worker.testimonials.run = function(el){
-//     var themeTestimonials = $('<div class="theme_worker-testimonials"></div>');    
-//     themeTestimonials.append('<div class="titulo-categoria cor-principal"><strong>'+ theme.worker.testimonials.config.title +'</strong></div>');    
-//     var themeTestimonialsList = $('<ul class="slider"></ul>');
-//     $.each(theme.worker.testimonials.list, function(k,item){
-//         let li_ = $('<li></li>');
-//         let li = $('<div></div>');
-//         var content = $('<div class="content"></div>');
-//         if(item.img != ""){li.append('<img src="'+item.img+'"/>');}
-//         if(item.name != ""){content.append('<div><strong style="'+ (theme.worker.testimonials.config.nameColor != "" ? "color:" + theme.worker.testimonials.config.nameColor + ";": "") +'" >'+ item.name +'</strong></div>');}
-//         if(item.description != ""){content.append('<div><p style="'+ (theme.worker.testimonials.config.descriptionColor != "" ? "color:" + theme.worker.testimonials.config.descriptionColor + ";": "") +'">'+ item.description +'</p></div>');}
-//         let rating = $('<div class="rating"></div>')
-//         if(item.rating != ""){
-//             for(let i = 1; i<=5; i++ ){
-//                 rating.append('<i style="'+ (theme.worker.testimonials.config.ratingColor != "" ? "color:" + theme.worker.testimonials.config.ratingColor + ";": "") +'" class="fa fa-star'+ (i<= item.rating ? '' : '-o') +'"></i>');
-//             }            
-//         }
-//         content.append(rating);
-//         li.append(content);
-//         li_.append(li);        
-//         themeTestimonialsList.append(li_);
-//     });
-//     themeTestimonials.append(themeTestimonialsList);
-//     themeTestimonials.appendTo(theme.worker.testimonials.config.target);
-    
-//     $('.theme_worker-testimonials > .slider').apx_slick(theme.settings.sliders.testimonials);
-    
-//     console.log('theme.worker.testimonials OK');
-// };
 
 theme.worker.floatingWhatsapp = {};
 theme.worker.floatingWhatsapp.list = [{}];
@@ -1649,85 +1604,9 @@ theme.worker.floatingWhatsapp.run = function(el){
     console.log('theme.worker.floatingWhatsapp OK');
 };
 
-theme.worker.insertBanners = {};
-theme.worker.insertBanners.list = [];
-theme.worker.insertBanners.functions = {};
-theme.worker.insertBanners.style = "";
-theme.worker.insertBanners.config = {};
-theme.worker.insertBanners.run = function(){
-    $.each(theme.worker.insertBanners.list, function(k, item){
-        let targetSelector = null;
-        switch (item.target){
-            case 'Lançamento':
-                targetSelector = $('.vitrine-lancamento + ul');
-                break;
-            case 'Mais Vendidos':
-                targetSelector = $('.vitrine-mas-vendidos + ul');
-            break;
-            case 'Posição':
-                targetSelector = $('.pagina-inicial #listagemProdutos > ul').eq(item.position - 1);
-            break; 
-        }
-         
-        if(targetSelector.length == 1 && item.images.length > 0){
-            let columns = 12/item.images.length;
-            let row = $('<div class="row-fluid"></div>');
-            $.each(item.images,function(k2, image){
-                row.append('<div class="span'+ columns+'"><a href="'+ image.link +'"><img src="'+ image.url +'"/></a></div>');
-            });
-            targetSelector.after(row);
-        }
-    })  
-}
-
-theme.worker.insertVideos = {};
-theme.worker.insertVideos.list = [];
-theme.worker.insertVideos.functions = {};
-theme.worker.insertVideos.style = "";
-theme.worker.insertVideos.config = {};
-theme.worker.insertVideos.run = function(){
-    $.each(theme.worker.insertVideos.list, function(k, item){
-        let targetSelector = null;
-        switch (item.target){
-            case 'Lançamento':
-                targetSelector = $('.vitrine-lancamento + ul');
-                break;
-            case 'Mais Vendidos':
-                targetSelector = $('.vitrine-mas-vendidos + ul');
-            break;
-            case 'Posição':
-                targetSelector = $('.pagina-inicial #listagemProdutos > ul').eq(item.position - 1);
-            case 'Rodapé':
-                targetSelector = $('#blank-home-position4');
-            break; 
-        }
-        //console.log(targetSelector.length)
-        if(targetSelector.length == 1 && item.videoShare){            
-            if(item.description != null){
-                let container = $('<div class="container withDescription theme_worker-insertVideos"></div>');
-                let row = $('<div class="row-flex align-items-center text-center"></div>');
-                row.append('<div class="col"><div class="titulo-categoria cor-principal"><strong>'+ item.title +'</strong></div><div class="description">'+ item.description +'</div></div>');
-                row.append('<div class="col text-center">'+ item.videoShare +'</div>');
-                container.append(row);
-                targetSelector.after(container);
-            }else{
-                let container = $('<div class="conteiner theme_worker-insertVideos"></div>');
-                let row = $('<div class="row-flex align-items-center text-center"></div>');
-                container.append('<div class="row"><div class="col"><div class="titulo-categoria cor-principal"><strong>'+ item.title +'</strong></div></div></div>')
-                container.append('<div class="row"><div class="col text-center">'+ item.videoShare +'</div></div>');
-                targetSelector.after(container);
-            }            
-        }
-    })  
-}
-
 $(document).ready(function(){
-    theme.worker.insertBanners.match = $('.pagina-inicial').length == 1;
-    theme.worker.insertVideos.match = $('.pagina-inicial').length == 1;
     theme.worker.floatingWhatsapp.match = theme.settings.whatsappButton;
-    theme.worker.mobileFullbanner.match = $('.pagina-inicial').length == 1;
     // theme.worker.testimonials.match = $('.pagina-inicial').length > 0;
-    theme.worker.sizeTable.match = $('.pagina-produto').length > 0;
     theme.worker.floatingWhatsapp.config.number =  "55" + $('.barra-inicial .canais-contato .fa-whatsapp').parent().text().replace('Whatsapp: ','').replace('(','').replace(')','').replace('-','').replaceAll(' ','').trim();
 
     
