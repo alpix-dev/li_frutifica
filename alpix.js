@@ -340,7 +340,7 @@ theme.build.header = function(template){
     $('#cabecalho').html(theme.templates.header);
     $('#theme_header-logo').append(theme.logo);
     $('#theme_header-menu-categories').html(theme.headerMenu);
-    $('#theme_header-menu-categories .nivel-um').append('<li><button id="f_entrega" type="button">Entrega aqui?</button></li>');
+    
     $('#theme_header-functions').append('<li>' + theme.headerCart + '</li>');
     $('#theme_header-functions').prepend('<li><button type="button" class="account-trigger">'+ theme.icon.account +'<div><b>Olá, <span>'+ theme.userFirstname+ '</span></b>'+ (theme.userFirstname == "Visitante" ? 'Faça login ou cadastre-se' : 'Minha Conta')+'</div></button></li>');
         
@@ -365,12 +365,45 @@ theme.build.header = function(template){
         $('#cabecalho').addClass('theme_invert');
     }
 
+    $(document).ready(function(){
+        $('#theme_header-menu-categories .nivel-um').append('<li><button id="f_entrega" data-toggle="modal" data-target="#f_entrega-modal" type="button">Entrega aqui?</button></li>');
+        $('body').append('<div class="modal hide fade modal" id="f_entrega-modal"> <div class="modal-header"> <h5 class="modal-title">Consultar área de entrega</h5> <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"> <span aria-hidden="true">&times;</span> </button> </div><div class="modal-body"><p>Insira o CEP de entrega no formulário abaixo e confirme se a região está em nossa área de cobertura.</p> <form> <div class="form-group"> <label for="cep">CEP:</label> <input type="text" required class="form-control" id="cep" placeholder="00000-000"> </div><button type="submit" class="btn btn-primary">Verificar</button> </form> <div id="f_entrega-modal-result"></div></div></div>');
+        $('#f_entrega-modal form input').mask('00000-000');
+        $('#f_entrega-modal form').submit(function(e){
+            e.preventDefault();
+            let btn = $(this).find('button');
+            let apx_zip = $(this).find('input').val()
+            btn.attr('disabled','true');
+            $.get('/carrinho/frete?cep='+ apx_zip +'&produto_id=194547534&quantidade=1', function(data, status){
+                let dt = JSON.parse(data);
+                console.log(dt);
+                if(dt.length > 0){
+                    $('#f_entrega-modal-result').html('<span class="ok">Sim! Entregamos na sua região.</span>');
+                    sessionStorage.setItem('apx_zip',apx_zip);
+                }else{
+                    $('#f_entrega-modal-result').html('<span class="err">Infelizmente no momento não atendemos esta região.</span>');
+                }
+                btn.removeAttr('disabled');
+            })
+        });
+
+        $('.input-cep').change(function(){
+            sessionStorage.setItem('apx_zip',$(this).val());
+        });
+
+        if(sessionStorage.getItem('apx_zip')){
+            $('.input-cep').val(sessionStorage.getItem('apx_zip'));
+        }
+    })
     
 };
 theme.build.headerApp = function(){
     $('#cabecalho').html(theme.templates.headerApp).addClass('no-sticky');
     $('#theme_header-logo').append(theme.logo);
+    $('#theme_header-back').html('<a href="/"><i></i><span class="hidden-phone">Continuar Comprando</a>');
     
+    $('#theme_header-functions-app ul').append('<li><a href="https://wa.me/5511950806282"><i class="fa fa-whatsapp"></i> (11) 95080-6282</li>');
+    $('#theme_header-functions-app ul').append('<li><i class="fa fa-lock"></i> Compra Segura</li>');
     
 
     
@@ -570,25 +603,34 @@ theme.perguntasFrequentes.title = "Perguntas frequentes";
 theme.perguntasFrequentes.subtitle = "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. ";
 theme.perguntasFrequentes.itens = [];
 theme.perguntasFrequentes.itens.push({
-    title: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.',
-    response: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.'
+    title: 'Pode fazer alteração dentro do kit? ',
+    response: 'Simm! Porém existem algumas regrinhas:<br><br>- Somente 3 opções de pratos do kit podem ser alterados;<br>- A troca é feita apenas por outros pratos que já constam dentro do próprio kit;<br><br>Se quiser trocar um prato que contém “2x” ou “3x” (unidades do mesmo sabor), conta como uma troca.<br>Kits que contém 3 ou 4 unidades, é disponível apenas uma troca.'
 });
 theme.perguntasFrequentes.itens.push({
-    title: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.',
-    response: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.'
+    title: 'Vocês fazem marmitas personalizadas de acordo com a Dieta? ',
+    response: 'No momento não fazemos alterações dos ingredientes de dentro do prato, por exemplo, retirar o feijão, trocar o arroz, mudar o acompanhamento ou retirar algum tempero.'
 });
 theme.perguntasFrequentes.itens.push({
-    title: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.',
-    response: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.'
+    title: 'Qual forma de Pagamento vocês aceitam?',
+    response: 'Aceitamos as seguintes formas de pagamento na entrega: ✅<br><br>- PIX 📱<br>- Dinheiro 💸<br>- Crédito e Débito 💳<br>- Flash (Função Crédito) 💳<br>- iFood Benefícios (Função Crédito) 💳<br>- Alimentação: Sodexo, VR e Ticket 🛒<br>- Refeição: Alelo, Sodexo, VR e Ticket 🍽️<br><br>Caso sua bandeira não esteja na lista, entre em contato para verificação!'
 });
 theme.perguntasFrequentes.itens.push({
-    title: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.',
-    response: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.'
+    title: 'Entrega de final de semana?',
+    response: 'Nossas entregas são feitas apenas de Segunda a Sexta!'
 });
 theme.perguntasFrequentes.itens.push({
-    title: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros.',
-    response: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Phasellus hendrerit. Pellentesque aliquet nibh nec urna. In nisi neque, aliquet vel, dapibus id, mattis vel, nisi. Sed pretium, ligula sollicitudin laoreet viverra, tortor libero sodales leo, eget blandit nunc tortor eu nibh. Nullam mollis. Ut justo. Suspendisse potenti.'
+    title: 'Em quanto tempo entrega? ',
+    response: 'Nosso prazo mínimo de entrega e retirada é de 2 à 3 dias úteis! 🥰<br><br>Temos o tempo de preparo, a produção, o ultracongelamento, e assim, enviado para entrega aos clientes já congelado! 🤩'
 });
+theme.perguntasFrequentes.itens.push({
+    title: 'Vocês trabalham com pronta entrega? ',
+    response: 'Infelizmente não trabalhamos com estoque a pronta-entrega e por esse motivo não conseguimos entregar o seu pedido antes.<br>Somente conseguimos dentro do nosso prazo de produção. '
+});
+theme.perguntasFrequentes.itens.push({
+    title: 'Pode agendar o horário e dia de entrega? ',
+    response: 'Claro! Você mesmo pode escolher assim que finaliza dentro do site, a data e período; ou pelo próprio WhatsApp pode agendar com um de nossos atendentes! <br>Lembrando: trabalhamos apenas com períodos e não entregamos com hora marcada!'
+});
+
 
 
 
@@ -963,7 +1005,7 @@ theme.functions.init = function(){
     theme.icon.close = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g data-name="Layer 2"><g data-name="close"><rect width="24" height="24" transform="rotate(180 12 12)" opacity="0"/><path d="M13.41 12l4.3-4.29a1 1 0 1 0-1.42-1.42L12 10.59l-4.29-4.3a1 1 0 0 0-1.42 1.42l4.3 4.29-4.3 4.29a1 1 0 0 0 0 1.42 1 1 0 0 0 1.42 0l4.29-4.3 4.29 4.3a1 1 0 0 0 1.42 0 1 1 0 0 0 0-1.42z"/></g></g></svg>';
     theme.icon.menu = '<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 22.9998C7.44772 22.9998 7 23.4475 7 23.9998C7 24.552 7.44772 24.9998 8 24.9998V22.9998ZM40 24.9998C40.5523 24.9998 41 24.552 41 23.9998C41 23.4475 40.5523 22.9998 40 22.9998V24.9998ZM8 10.9998C7.44772 10.9998 7 11.4475 7 11.9998C7 12.552 7.44772 12.9998 8 12.9998V10.9998ZM40 12.9998C40.5523 12.9998 41 12.552 41 11.9998C41 11.4475 40.5523 10.9998 40 10.9998V12.9998ZM8 34.9998C7.44772 34.9998 7 35.4475 7 35.9998C7 36.552 7.44772 36.9998 8 36.9998V34.9998ZM40 36.9998C40.5523 36.9998 41 36.552 41 35.9998C41 35.4475 40.5523 34.9998 40 34.9998V36.9998ZM8 24.9998H40V22.9998H8V24.9998ZM8 12.9998H40V10.9998H8V12.9998ZM8 36.9998H40V34.9998H8V36.9998Z" fill="#231F20"/></svg>';
     
-    theme.templates.headerApp = '<div id="f_header"> <div class="conteiner-fluid"> <div class="row-flex align-items-center"> <div class="col justify-content-center" id="theme_header-back"></div><div class="col justify-content-center" id="theme_header-logo"></div><div class="col" id="theme_header-functions-block"> <ul id="theme_header-functions"></ul> </div></div></div></div>';
+    theme.templates.headerApp = '<div id="f_header"> <div class="conteiner-fluid"> <div class="row-flex align-items-center"> <div class="col justify-content-center" id="theme_header-back"></div><div class="col justify-content-center" id="theme_header-logo"></div><div class="col" id="theme_header-functions-app"> <ul></ul> </div></div></div></div>';
     if (!theme.templates.header) theme.templates.header = '<div id="f_header"> <div class="conteiner-fluid"> <div class="row-flex align-items-center"> <div class="col"> <div class="row-flex align-items-center"> <div class="col-auto justify-content-center" id="theme_header-menu-full"><button type="button" id="theme_header-menu-trigger"></button></div><div class="col-auto justify-content-center" id="theme_header-menu-categories"></div></div></div><div class="col justify-content-center" id="theme_header-logo"></div><div class="col" id="theme_header-functions-block"><ul id="theme_header-functions"></ul></div></div></div></div>';
     if (!theme.templates.search) theme.templates.search = '<div class="theme_aside theme_search right"><div class="theme_aside-header"><button type="button" class="search-trigger" >'+ theme.icon.sideCartClose +'</button><span>'+ theme.lang.searchTitle +'</span></div><div class="theme_aside-content" id="theme_search"></div></div>';
     if (!theme.templates.account) theme.templates.account = '<div class="theme_aside theme_account right"><div class="theme_aside-header"><button type="button" class="account-trigger" >'+ theme.icon.sideCartClose +'</button><span>'+ theme.lang.accountTitle +'</span></div><div class="theme_aside-content" id="theme_account"></div></div>';
@@ -993,7 +1035,7 @@ theme.functions.init = function(){
 
         $('body').append('<div class="theme_aside-shadow"></div>');
         
-        if($('.carrinho-checkout').length == 0){theme.build.header(2);theme.build.asideMenu();}else{
+        if($('.pagina-carrinho').length == 0){theme.build.header(2);theme.build.asideMenu();}else{
             theme.build.headerApp();
         }
         theme.build.footer(1);
@@ -1495,6 +1537,20 @@ theme.functions['pagina-produto'] = function(){
 
 theme.functions['pagina-carrinho'] = function(){
     if($('.carrinho-checkout').length > 0){
+        //OPEN FORM
+            $('#login-content, .checkout-alerta-seguro').hide();
+            $('#formularioCheckout .row-fluid').show();
+        
+            $('.fazer-login-btn').click(function(){
+                $('#login-content, .checkout-alerta-seguro').show();
+                $('#formularioCheckout .row-fluid').hide();
+            });
+            $('.fazer-cadastro').click(function(){
+                $('#login-content, .checkout-alerta-seguro').hide();
+                $('#formularioCheckout .row-fluid').show();
+            });
+            $('#tipoFisica').addClass('in')
+        // END OPEN FORM
         $('#formularioCheckout').before('<div class="cabecalho-interno row-fluid"> <div class="span12"> <h1 class="titulo cor-secundaria"> Finalizar Pedido<small> Preencha seus dados, escolha a modalidade de envio e efetue seu pedido.</small> </h1> </div></div>');
         $('.tabela-carrinho').clone().insertBefore('#formas-pagamento-wrapper');
         $('.tabela-carrinho').wrap('<div class="caixa-sombreada theme_order-resume"></div>');

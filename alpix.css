@@ -4069,6 +4069,7 @@ h4 + small,
 
 #formularioCheckout .caixa-sombreada{background:#fff;border: 1px solid #f2f2f2!important;}
 #formularioCheckout .caixa-sombreada.caixa-ativa{background:#f8f8f8!important}
+#formularioCheckout .caixa-sombreada.caixa-ativa label{color:var(--preto)!important}
 #formularioCheckout .caixa-sombreada input:focus{
     box-shadow: 0px 0px 3px var(--verde_lime)!important;
 }
@@ -4184,3 +4185,171 @@ h4 + small,
     bottom: 100%;
 }
 #userExtraInfo input{margin-bottom:0}
+
+.pagina-pagina{}
+
+.pagina-pagina h1.titulo{font-size:48px;text-align:center;border-bottom:0!important;display:block;width: 100%;margin-bottom:0;padding-bottom:0}
+.pagina-pagina .caixa-sombreada{
+    padding:0;
+}
+.pagina-pagina .conteudo{
+    text-align: center;
+    margin: 0 auto!important;
+    max-width: 100%;
+    width: 900px;
+    float:none
+}
+.pagina-pagina .conteudo p{
+    font-size:20px;
+    line-height:33px;
+    margin:1rem 0 2rem 0;
+    color:var(--cinza)
+}
+.pagina-pagina .conteudo img{border-radius:20px;margin-bottom:1rem}
+
+#f_entrega{
+    background:transparent;
+    padding:0;
+    border:0;
+    font-family: var(--menuFontFamily);
+    text-transform: var(--menuFontTransform);
+    font-weight: var(--menuFontWeight);
+    font-size: var(--menuFontSize);
+    color:var(--vermelho);
+    margin:15px 0
+}
+
+#f_entrega-modal{width:500px;max-width: 100%;}
+#f_entrega-modal .modal-body > p{
+    font-size: 16px;
+    text-align: center;
+    line-height: 24px;
+    margin: 0 0 2rem 0;
+    padding: 0 2rem;
+    color:var(--cinza)
+}
+
+#f_entrega-modal .modal-title{
+    font-family: "_galic";
+    color: var(--verde_dark);
+    font-size: 20px;
+}
+#f_entrega-modal .modal-header  button{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 30px;
+    color: var(--vermelho);
+    opacity: 1;
+}
+#f_entrega-modal form *{margin:0}
+#f_entrega-modal form,
+#f_entrega-modal form .form-group{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+#f_entrega-modal form .form-group label{font-size:16px;font-weight:600;}
+#f_entrega-modal form button,
+#f_entrega-modal form button:hover,
+#f_entrega-modal form button:active{
+    background-color: var(--vermelho);
+    box-shadow: 0px 4px 3px rgb(35 31 32 / 20%);
+    height: 42px;
+    padding: 0 2rem!important;
+    font-family: 'Lato';
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: initial!important;
+    border: 0!important;
+    outline:0!important;
+}
+#f_entrega-modal form{
+    background: #f8f8f8;
+    padding: 1rem;
+    border-radius: 5px;
+    justify-content: center;
+}
+
+#f_entrega-modal-result span{
+    padding: 1rem;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    background: #ccc;
+    color: #fff;
+    border-radius: 5px;
+    margin-top: 15px;
+}
+#f_entrega-modal-result span.ok{background-color:var(--verde_dark)}
+#f_entrega-modal-result span.err{background-color:var(--vermelho)}
+
+.pagina-carrinho:not(.carrinho-checkout) .caixa-sombreada{
+    background:transparent;
+    border:0;
+}
+.pagina-inicial .alert-danger,
+.pagina-produto .alert-danger,
+.pagina-marca .alert-danger,
+.pagina-categoria .alert-danger,
+.pagina-pagina .alert-danger,
+.pagina-busca .alert-danger{display:none;}
+
+.identificacao-inner{background:#f8f8f8}
+
+#apx_schedule .control-group,
+#apx_schedule .control-group textarea{margin:0}
+
+.pagina-carrinho .botao.principal.grande,
+#theme_sideCart #theme_sideCart-footer a.botao-comprar{
+    background:var(--verde_dark)
+}
+
+#theme_header-back{}
+#theme_header-back i{
+    width: 26px;
+    height: 26px;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+}
+#theme_header-back i:after,
+#theme_header-back i:before{
+    content:"";
+    position:absolute;
+    height:1px;
+    background:var(--cinza);
+    width:50%;
+    position:absolute;
+    rotate: -45deg;
+    top: 31%;
+}
+#theme_header-back i:before{
+    bottom:31%;
+    top: auto;
+    rotate:45deg
+}
+#theme_header-back span{
+    color: var(--cinza);
+    font-size: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -2px;
+}
+#theme_header-functions-app ul{margin:0;display:flex;gap:1.5rem;}
+#theme_header-functions-app i{color:var(--vermelho);margin-right:5px;}
+#theme_header-functions-app{
+    color: var(--cinza);
+    font-size: 16px;
+    justify-content: flex-end;
+    display: flex;
+}
+#theme_header-functions-app a{
+    color: var(--cinza);
+    font-size: 16px;
+    display:flex;
+    align-items: center;
+    
+}
