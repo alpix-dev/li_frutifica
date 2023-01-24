@@ -95,7 +95,13 @@ theme.settings.sliders.miniSlider = {
     autoplay: true,
     autoplaySpeed: 2000,
     prevArrow: theme.settings.sliders.config.prevArrow,
-    nextArrow: theme.settings.sliders.config.nextArrow    
+    nextArrow: theme.settings.sliders.config.nextArrow,
+    responsive: [
+        {
+            breakpoint:1000,
+            settings:"unslick"
+        }
+    ]    
 }
 
 theme.settings.sliders.fullbanner = {
@@ -106,7 +112,16 @@ theme.settings.sliders.fullbanner = {
     fade:true,
     autoplaySpeed: 5000,
     prevArrow: theme.settings.sliders.config.prevArrow,
-    nextArrow: theme.settings.sliders.config.nextArrow    
+    nextArrow: theme.settings.sliders.config.nextArrow,
+    responsive: [
+        {
+            breakpoint:1000,
+            settings:{
+                arrows:false,
+                dots:true
+            }
+        }
+    ]    
 }
 
 theme.settings.sliders.brands = {
@@ -140,15 +155,10 @@ theme.settings.sliders.categorySlider = {
     nextArrow: theme.settings.sliders.config.nextArrow,
     responsive: [
         {
-            breakpoint: 600,
-            settings: {
-                slidesToShow: 3,
-                slidesToScroll: 1,
-                arrows : false,
-                centerMode: true
-            }
+            breakpoint:1000,
+            settings:"unslick"
         }
-    ]
+    ] 
 }
 
 theme.settings.sliders.testimonials = {
@@ -339,7 +349,7 @@ theme.build = [];
 theme.build.header = function(template){
     $('#cabecalho').html(theme.templates.header);
     $('#theme_header-logo').append(theme.logo);
-    $('#theme_header-menu-categories').html(theme.headerMenu);
+    $('.theme_header-menu-categories').html(theme.headerMenu);
     
     $('#theme_header-functions').append('<li>' + theme.headerCart + '</li>');
     $('#theme_header-functions').prepend('<li><button type="button" class="account-trigger">'+ theme.icon.account +'<div><b>Olá, <span>'+ theme.userFirstname+ '</span></b>'+ (theme.userFirstname == "Visitante" ? 'Faça login ou cadastre-se' : 'Minha Conta')+'</div></button></li>');
@@ -635,7 +645,14 @@ theme.perguntasFrequentes.itens.push({
 
 
 theme.functions = [];
-
+theme.functions.responsiveLogo = function(src){
+    let logo_md = $('.logo img').attr('src');
+    let logo_sm = src;
+    $('.logo img').wrap('<picture id="theme_responsive-logo"></picture');
+    $('#theme_responsive-logo').prepend('<source media="(max-width:1000px)" srcset="'+ logo_sm +'">');
+    $('#theme_responsive-logo').prepend('<source media="(min-width:1001px)" srcset="'+ logo_md +'">');
+    
+};
 theme.functions.dateFormatNormalToISO = function(date_){
     let dateString = date_.split("/");
     let date = new Date(dateString[2], dateString[1] - 1, dateString[0]);
@@ -1109,7 +1126,7 @@ theme.functions.init = function(){
     theme.icon.menu = '<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M8 22.9998C7.44772 22.9998 7 23.4475 7 23.9998C7 24.552 7.44772 24.9998 8 24.9998V22.9998ZM40 24.9998C40.5523 24.9998 41 24.552 41 23.9998C41 23.4475 40.5523 22.9998 40 22.9998V24.9998ZM8 10.9998C7.44772 10.9998 7 11.4475 7 11.9998C7 12.552 7.44772 12.9998 8 12.9998V10.9998ZM40 12.9998C40.5523 12.9998 41 12.552 41 11.9998C41 11.4475 40.5523 10.9998 40 10.9998V12.9998ZM8 34.9998C7.44772 34.9998 7 35.4475 7 35.9998C7 36.552 7.44772 36.9998 8 36.9998V34.9998ZM40 36.9998C40.5523 36.9998 41 36.552 41 35.9998C41 35.4475 40.5523 34.9998 40 34.9998V36.9998ZM8 24.9998H40V22.9998H8V24.9998ZM8 12.9998H40V10.9998H8V12.9998ZM8 36.9998H40V34.9998H8V36.9998Z" fill="#231F20"/></svg>';
     
     theme.templates.headerApp = '<div id="f_header"> <div class="conteiner-fluid"> <div class="row-flex align-items-center"> <div class="col justify-content-center" id="theme_header-back"></div><div class="col justify-content-center" id="theme_header-logo"></div><div class="col" id="theme_header-functions-app"> <ul></ul> </div></div></div></div>';
-    if (!theme.templates.header) theme.templates.header = '<div id="f_header"> <div class="conteiner-fluid"> <div class="row-flex align-items-center"> <div class="col"> <div class="row-flex align-items-center"> <div class="col-auto justify-content-center" id="theme_header-menu-full"><button type="button" id="theme_header-menu-trigger"></button></div><div class="col-auto justify-content-center" id="theme_header-menu-categories"></div></div></div><div class="col justify-content-center" id="theme_header-logo"></div><div class="col" id="theme_header-functions-block"><ul id="theme_header-functions"></ul></div></div></div></div>';
+    if (!theme.templates.header) theme.templates.header = '<div id="f_header"> <div class="conteiner-fluid"> <div class="row-flex align-items-center"> <div class="col"> <div class="row-flex align-items-center"> <div class="col-auto justify-content-center" id="theme_header-menu-full"><button type="button" id="theme_header-menu-trigger"></button></div><div class="col-auto justify-content-center theme_header-menu-categories hidden-phone"></div></div></div><div class="col justify-content-center" id="theme_header-logo"></div><div class="col" id="theme_header-functions-block"><ul id="theme_header-functions"></ul></div></div><div class="visible-phone"><div class="theme_header-menu-categories"></div></div></div></div>';
     if (!theme.templates.search) theme.templates.search = '<div class="theme_aside theme_search right"><div class="theme_aside-header"><button type="button" class="search-trigger" >'+ theme.icon.sideCartClose +'</button><span>'+ theme.lang.searchTitle +'</span></div><div class="theme_aside-content" id="theme_search"></div></div>';
     if (!theme.templates.account) theme.templates.account = '<div class="theme_aside theme_account right"><div class="theme_aside-header"><button type="button" class="account-trigger" >'+ theme.icon.sideCartClose +'</button><span>'+ theme.lang.accountTitle +'</span></div><div class="theme_aside-content" id="theme_account"></div></div>';
     if (!theme.templates.filters) theme.templates.filters = '<div class="theme_aside theme_filter right"><div class="theme_aside-header"><button type="button" class="filter-trigger" >'+ theme.icon.sideCartClose +'</button><span>'+ theme.lang.filtersTitle +'</span></div><div class="theme_aside-content" id="theme_filter"></div></div>';
