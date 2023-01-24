@@ -1405,9 +1405,8 @@ theme.functions['pagina-pedido-finalizado'] = function(){
     });
     console.log(order);    
 
-    //if(!sessionStorage.getItem('order_' + order.num_pedido)){
+    if(!sessionStorage.getItem('order_' + order.num_pedido)){
         sessionStorage.setItem('order_' + order.num_pedido, true);
-        console.log('grava pedido');
         $.post(ws_url.replace('?action=read',''), {
             sheetName: 'db_agendamentos',
             action: 'insertAgendamento', 
@@ -1420,9 +1419,7 @@ theme.functions['pagina-pedido-finalizado'] = function(){
             console.log(data)
         }, "json"); 
 
-    //}else{
-        //console.log('grava nada não')
-    //}
+    }
 };
 
 theme.functions['pagina-inicial'] = function(){
