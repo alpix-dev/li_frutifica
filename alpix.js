@@ -646,12 +646,11 @@ theme.perguntasFrequentes.itens.push({
 
 theme.functions = [];
 theme.functions.responsiveLogo = function(src){
-    let logo_md = $('.logo img').attr('src');
+    let logo_md = $('#cabecalho .logo img').attr('src');
     let logo_sm = src;
-    $('.logo img').wrap('<picture id="theme_responsive-logo"></picture');
+    $('#cabecalho .logo img').wrap('<picture id="theme_responsive-logo"></picture');
     $('#theme_responsive-logo').prepend('<source media="(max-width:1000px)" srcset="'+ logo_sm +'">');
-    $('#theme_responsive-logo').prepend('<source media="(min-width:1001px)" srcset="'+ logo_md +'">');
-    
+    $('#theme_responsive-logo').prepend('<source media="(min-width:1001px)" srcset="'+ logo_md +'">');    
 };
 theme.functions.dateFormatNormalToISO = function(date_){
     let dateString = date_.split("/");
@@ -797,14 +796,7 @@ theme.functions.slickBanners = function(){
         slickThis.apx_slick(theme.settings.sliders.fullbanner);
     })
 };
-theme.functions.responsiveLogo = function(src){
-    let logo_md = $('.logo img').attr('src');
-    let logo_sm = src;
-    $('.logo img').wrap('<picture id="theme_responsive-logo"></picture');
-    $('#theme_responsive-logo').prepend('<source media="(max-width:990px)" srcset="'+ logo_sm +'">');
-    $('#theme_responsive-logo').prepend('<source media="(min-width:991px)" srcset="'+ logo_md +'">');
-    
-};
+
 theme.functions.bannerFromPanelFunctions = function(ref){
     //CONTENT FROM "FULLBANNERS" ON LI PANEL
     let flag ;
@@ -980,23 +972,27 @@ theme.functions.bannerFromPanelFunctions = function(ref){
         //COVER CATEGORY 
         if(trigger.includes('[foto-categoria]')){
             $(this).clone().prependTo('#corpo .conteudo'); 
-            //$(this).closest('li').remove();
-            $(this).closest('li').length > 0 ? $(this).closest('li').remove() : $(this).parent().remove();
-
-            
+            $(this).closest('li').length > 0 ? $(this).closest('li').remove() : $(this).parent().remove();            
         }
  
-         //TESTIMONIALS SLIDER
-         if(trigger.includes('[depoimento]')){
-             if($('#theme_testimonialSlider').length == 0){
-                 $('<div id="theme_testimonialSlider" class="listagem"><div class="titulo-categoria cor-principal"><strong>'+ theme.lang.testimonialsTitle +'</strong></div><div class="slides"></div></div>').appendTo('#corpo > .conteiner');
-             }
-             $(this).closest('li').appendTo('#theme_testimonialSlider > .slides'); 
-         }
+        //TESTIMONIALS SLIDER
+        if(trigger.includes('[depoimento]')){
+            if($('#theme_testimonialSlider').length == 0){
+                $('<div id="theme_testimonialSlider" class="listagem"><div class="titulo-categoria cor-principal"><strong>'+ theme.lang.testimonialsTitle +'</strong></div><div class="slides"></div></div>').appendTo('#corpo > .conteiner');
+            }
+            $(this).closest('li').appendTo('#theme_testimonialSlider > .slides'); 
+        }
+
+        //FOOTER LOGO
+        if(trigger.includes('[logo-rodape]')){
+            $('#rodape [theme-content="logo"]').empty();
+            $(this).closest('li').appendTo('#rodape [theme-content="logo"]'); 
+        }
  
-         if((!trigger.includes('[mobile]') && theme.isMobile) || (trigger.includes('[mobile]') && !theme.isMobile)){
-             $(this).closest('li').remove();                        
-         }
+        if((!trigger.includes('[mobile]') && theme.isMobile) || (trigger.includes('[mobile]') && !theme.isMobile)){
+            $(this).closest('li').remove();                        
+        }
+        
          
          
          if(flag == k+1){

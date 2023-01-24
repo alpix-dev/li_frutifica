@@ -4350,7 +4350,8 @@ h4 + small,
         /* FOOTER */
         --footerFontSize: calc(14px * 0.9);
         /* FOOTER TITLES */
-        --footerTitleFontSize: calc(18px * 0.9);    
+        --footerTitleFontSize: 20px;  
+        --footerFontSize:16px;  
         /* PRODUCT LISTING */
         --productFontSize: 12.8px;
         --productPriceFontSize: 17.5px;
@@ -4385,6 +4386,7 @@ h4 + small,
     #theme_header-menu-trigger:after,
     #theme_header-menu-trigger:before{border-color:#fff}
     
+    .listagem-item .produto-sobrepor,
     #theme_header-functions > li:first-child,
     #f_header .account-trigger > div{display:none}
 
@@ -4439,6 +4441,7 @@ h4 + small,
     .theme_header-menu-categories{display:none}   
     .theme_header-menu-categories .menu .superior{}   
 
+    .pagina-inicial #listagemProdutos ul:after{display:none}
     .pagina-inicial #listagemProdutos ul{
         display: flex;
         overflow-x: scroll;
@@ -4457,4 +4460,81 @@ h4 + small,
         opacity: 1;
         translate: 0 0px;
     }
+    #theme_list-functions > a{
+        height: 30px;
+        width: 110px;
+        box-sizing: border-box;
+        line-height: 30px;
+        padding:0;
+        text-align:center;
+    }
+    #theme_list-functions > a span{font-size:12px}
+    .listagem .preco-produto>div{margin:15px 0}
+    .listagem .listagem-item .preco-produto > div{gap:10px}
+    [theme-content="labels"] span{font-size:9px}
+
+    #f_how #f_how-list{
+        flex-direction: column;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    #f_how #f_how-list > li > div img{max-height:150px;}
+    #f_how #f_how-list > li > div{
+        gap: 1rem;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        padding:0 2rem;
+    }
+    #f_how #f_how-list strong{font-size:17px;line-height:initial}
+    #f_how #f_how-list p{font-size:14px;line-height:20px;margin-top:-5px}
+
+    #f_faq #f_faq-list{margin:0;gap:5px}
+    #f_faq #f_faq-list > li .head{
+        font-size: 10px;
+        line-height: 18px;
+        padding: 7px 8px 7px 15px;
+    }
+    #f_faq #f_faq-list > li .head button{height:26px;width:26px;}
+    #f_faq #f_faq-list > li .head button:after{width:10px}
+    #f_faq #f_faq-list > li .head button:before{
+        height:10px;
+    }
+    #f_faq #f_faq-list > li .response{padding: 2rem 1rem 1rem 1rem;}
+    #f_faq #f_faq-list > li .response p{
+        display: block;
+        font-size: 12px;
+        line-height: 18px;
+    }
+    #rodape #barraNewsletter{
+        padding: 0 15px 5px 15px;
+    }
+
+    [theme-content="newsletter"] #barraNewsletter .componente .interno,
+    [theme-content="newsletter"] #barraNewsletter .componente .interno .interno-conteudo,
+    #rodape #barraNewsletter .componente .interno-conteudo .input-conteiner{
+        display:flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width:100%;
+        float: none;
+        margin: 0;
+        gap:15px
+    }
+    #rodape #barraNewsletter .texto-newsletter.newsletter-cadastro{
+        max-width:100%;
+        text-align:center;
+        padding:0;
+    }
+    #rodape #barraNewsletter .componente .interno-conteudo .input-conteiner input{margin:0;height:42px;text-align:center;padding:0 15px;}
+    #rodape #barraNewsletter .componente .interno-conteudo .input-conteiner button{width:100%}
+
+    #rodape .institucional{display:flex;flex-direction: column;}
+    #rodape .bg-lime_green{order:-1}
+    #rodape [theme-content="logo"]{text-align:center}
+    [theme-content="social"]{justify-content: center;}
+    [theme-content="store-description"] p{display:none}
+    #rodape .institucional .bg-gray:first-child .row-flex{margin:0 auto}
+    #rodape .institucional ul{margin-bottom:15px}
 }
