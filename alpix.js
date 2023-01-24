@@ -635,8 +635,111 @@ theme.perguntasFrequentes.itens.push({
 
 
 theme.functions = [];
+
+theme.functions.dateFormatNormalToISO = function(date_){
+    let dateString = date_.split("/");
+    let date = new Date(dateString[2], dateString[1] - 1, dateString[0]);
+    date.setHours(0);
+    date.setMinutes(0);
+    date.setSeconds(0);
+    date = date.toISOString();
+    return date;
+}
+theme.functions.dateFormaISOtoNormal = function(date_){
+    let isoDateString = date_;
+    let date = new Date(isoDateString);
+    let day = date.getDate().toString().padStart(2, "0");
+    let month = (date.getMonth() + 1).toString().padStart(2, "0");
+    let year = date.getFullYear();
+    let formattedDate = day + "/" + month + "/" + year;
+    return formattedDate;
+}
+theme.functions.orderDetailsUpdate = function(){
+    let txt = "";
+    if($('#dt_entrega').length > 0){
+        txt = txt + "Data da entrega: " + $('#dt_entrega').val() + '\n';
+    }
+    if($('#hr_entrega').length > 0){
+        txt = txt +  "Período da entrega: " + $('#hr_entrega').val() + '\n';
+        txt = txt +  "Horário da entrega: " + $('#hr_entrega').find('option:selected').attr('period_open') + '\n';
+    }
+    if($('#formularioObservacoes_2').length > 0){
+        txt = txt +  "Observações: " + $('#formularioObservacoes_2').val() + '\n';
+    }
+    $('[name="cliente_obs"]').val(txt);
+
+}
 theme.functions.datepicker = function(){
-    console.log('brabo');
+    $('body').append('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
+    $('body').append('<script src="https://cdn.jsdelivr.net/gh/jquery/jquery-ui/ui/i18n/datepicker-pt-BR.js"></script>');
+    $('#formularioObservacao').closest('.caixa-sombreada').hide();
+    $('<div class="caixa-sombreada borda-principal" id="apx_schedule"><legend class="titulo cor-secundaria">Agendamento</legend> <div class="row-fluid"> <div class="span6 control-group"> <label class="control-label font-bold" for="">Data da entrega</label> <div class="controls"> <input type="text" id="dt_entrega" required placeholder="Selecione..."> </div></div><div class="span6 control-group"> <label class="control-label font-bold" for="">Período da entrega</label> <div class="controls"> <select id="hr_entrega" required> <option value="">Escolha a data...</option> </select> </div></div></div><div class="row-fluid"> <div class="span12 control-group"> <label class="control-label font-bold" for="">Observações do pedido</label> <div class="controls"> <textarea id="formularioObservacoes_2" rows="5"> </textarea> </div></div></div></div>').insertBefore($('#formularioObservacao').closest('.caixa-sombreada'));
+    
+    let db_controle_agendamento;
+    if(db_controle_agendamento == undefined){
+        $.getJSON(ws_url+ '&sheetName=db_controle_agendamento', function( data ) {
+            var items = [];
+            sessionStorage.setItem('db_controle_agendamento',JSON.stringify(data.records));
+            db_controle_agendamento = data.records;
+        });
+    }
+
+    
+    $('#dt_entrega, #hr_entrega, #formularioObservacoes_2').change(function(){
+        theme.functions.orderDetailsUpdate();
+    });
+
+    $('#dt_entrega').datepicker({
+        beforeShowDay: function(date){
+            let day = date.getUTCDay();
+            let validDate = new Date();
+            validDate.setDate(validDate.getDate() + 2)
+            let available_days = schedule_config.filter(el => el.active == true && el.periods.length > 0).map(function(item){return item.weekday})
+            let disabled_days =  schedule_details.filter(el => el.active == false).map(function(item){
+                let disabledDateString = item.date;
+                let disabledDateParts = disabledDateString.split("/");
+                let disabledDate = new Date(disabledDateParts[2], disabledDateParts[1] - 1, disabledDateParts[0]);
+                return disabledDate
+            });
+            if (date < validDate) {
+                return [false, ""];
+            }else{
+                if(available_days.includes(day)){
+                    if(disabled_days.find(el => el.getDate() == date.getDate() && el.getMonth() == date.getMonth() && el.getFullYear() == date.getFullYear())){
+                        return [false,""];
+                    }else{
+                        return [true,""];
+                    }
+                }else{
+                    return [false, ""]
+                }
+            }
+            
+        },
+        onSelect: function(dateText, dateObj){
+            let dateString = dateText;
+            let dateParts = dateString.split("/");
+            let _date = new Date(dateParts[2], dateParts[1] - 1, dateParts[0]);
+            let day = _date.getUTCDay();
+            
+            
+            let rules = schedule_details.find(el => el.date == dateText);
+            if(!rules){
+                rules = schedule_config.find(el => el.weekday == day);
+            }
+            let schedule_db = db_controle_agendamento.find(el => el.date == theme.functions.dateFormatNormalToISO(dateText));
+            $('#hr_entrega').html('<option value="">Escolha a data...</option>');
+            $.each(rules.periods, function(k, period){                
+                if(schedule_db && schedule_db['delivery_count["'+ period.title +'"]']){
+                    if(schedule_db['delivery_count["'+ period.title +'"]'] < period.delivery_limit){
+                        $('#hr_entrega').append('<option value="'+ period.title +'" period_open="'+ period.open +'" period_close="'+ period.close +'">'+ period.title +' - '+ period.open+ ' às ' + period.close + '</option>');
+                    }
+                }else{
+                    $('#hr_entrega').append('<option value="'+ period.title +'" period_open="'+ period.open +'" period_close="'+ period.close +'">'+ period.title +' - '+ period.open+ ' às ' + period.close + '</option>');                    
+                }                
+            });
+        }
+    });
 };
 theme.functions.titulos = function(){
     $.each(theme.titulos,function(k,item){
@@ -1259,6 +1362,69 @@ theme.functions['pagina-cadastro'] = function(){
     $('#id_email').val() == "_" ? $('#id_email').val('') : false;
 };
 
+theme.functions['pagina-pedido-finalizado'] = function(){
+    var order = [];
+    order.num_pedido = $('.numero-pedido').first().text().trim();
+    $('.caixa-info li b').each(function(){
+        let txt = $(this).text();
+        if(txt == "Seu nome:"){
+            order.cliente = $(this).next('span').text().trim();
+        }
+        if(txt == "Endereço:"){
+            order.endereco = $(this).next('span').text().trim();
+        }
+        if(txt == "Bairro:"){
+            order.bairro = $(this).next('span').text().trim();
+        }
+        if(txt == "CEP:"){
+            order.cep = $(this).next('span').text().trim();
+        }  
+    });
+    $('legend').each(function(){
+        let txt = $(this).text();
+        if(txt == "Pagamento"){
+            order.pagamento = $(this).next('ul').find('img').attr('alt').trim();
+        }
+        if(txt == "Entrega"){
+            order.entrega = $(this).next('ul').find('img').attr('alt').trim();
+        }
+        if(txt == "Mensagem"){
+            let info = $(this).next('ul').html().replace('<li>','').replace('</li>','').split('<br>');
+            $.each(info,function(k_, item_){
+                if(item_.trim().split(':')[0] == "Data da entrega"){
+                    order.data_agendamento = item_.trim().split(':')[1].trim();
+                } 
+                if(item_.trim().split(':')[0] == "Período da entrega"){
+                    order.periodo_agendamento = item_.trim().split(':')[1].trim();
+                } 
+                if(item_.trim().split(':')[0] == "Horário da entrega"){
+                    order.schedule_open = item_.trim().split(':')[1].trim() + ':' + item_.trim().split(':')[2].trim();
+                } 
+            });
+        }        
+    });
+    console.log(order);    
+
+    //if(!sessionStorage.getItem('order_' + order.num_pedido)){
+        sessionStorage.setItem('order_' + order.num_pedido, true);
+        console.log('grava pedido');
+        $.post(ws_url.replace('?action=read',''), {
+            sheetName: 'db_agendamentos',
+            action: 'insertAgendamento', 
+            cliente: order.cliente,
+            num_pedido : order.num_pedido,
+            data_agendamento : order.data_agendamento,
+            periodo_agendamento : order.periodo_agendamento,
+            schedule_open : order.schedule_open
+        }, function(data){
+            console.log(data)
+        }, "json"); 
+
+    //}else{
+        //console.log('grava nada não')
+    //}
+};
+
 theme.functions['pagina-inicial'] = function(){
     if($('.secao-principal > .coluna').length){
         $('.secao-principal > .conteudo').toggleClass('span9 span12');
@@ -1559,13 +1725,7 @@ theme.functions['pagina-carrinho'] = function(){
 
         
         if(theme.settings.agendamento == true){
-            $('body').append('<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">');
-            $('body').append('<script src="https://cdn.jsdelivr.net/gh/jquery/jquery-ui/ui/i18n/datepicker-pt-BR.js"></script>');
-            $('#formularioObservacao').closest('.caixa-sombreada').hide();
-            $('<div class="caixa-sombreada borda-principal" id="apx_schedule"><legend class="titulo cor-secundaria">Agendamento</legend> <div class="row-fluid"> <div class="span6 control-group"> <label class="control-label font-bold" for="">Data da entrega</label> <div class="controls"> <input type="text" id="dt_entrega" placeholder="Selecione..."> </div></div><div class="span6 control-group"> <label class="control-label font-bold" for="">Período da entrega</label> <div class="controls"> <select id="hr_entrega"> <option value="">Escolha a data...</option> </select> </div></div></div><div class="row-fluid"> <div class="span12 control-group"> <label class="control-label font-bold" for="">Observações do pedido</label> <div class="controls"> <textarea id="formularioObservacoes_2" rows="5"> </textarea> </div></div></div></div>').insertBefore($('#formularioObservacao').closest('.caixa-sombreada'));
-            $('#dt_entrega').datepicker(
-                $.datepicker.regional[ "pt-BR" ]
-            );
+            theme.functions.datepicker();
         }
 
         $('input,textarea,select').focus(function(){
