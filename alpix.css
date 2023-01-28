@@ -1075,6 +1075,11 @@ body #rodape .gateways-rodape{
     /* color: var(--primaryColor); */
     color: var(--preto);
     font-weight: 500;
+    display: block;
+    float: none;
+    text-transform: initial;
+    font-family: var(--titleFontFamily);
+    font-size: 18px;
 }
 .theme_aside #theme_filter > div{}
 .theme_aside #theme_filter > div.atributo-cor > ul > li > a > span,
@@ -1402,7 +1407,10 @@ body #rodape .gateways-rodape{
 .pagina-produto .cep .form-inline > .input-append{width:100%;display:flex;}
 .pagina-produto .cep .form-inline > .input-append > input{margin-right:15px;width:100%;}
 .pagina-produto .cep .form-inline > .input-append > button{padding: 0 2rem;font-weight:bold;}
-
+.pagina-produto .cep .form-inline > .input-append > button{
+    background-color:var(--vermelho);
+    color:#fff;
+}
 .theme-avisoEstoque{
     font-size: 12px;
     color: #ef1c00;
@@ -2458,15 +2466,15 @@ html[alpix-theme] body.pagina-produto .secao-principal > .produto .destaque-parc
 #rodape .gateways-rodape li{border-left:0;margin-left:0;}
 #theme_sideCart .subtotal strong{font-weight:600}
 
-@media(max-width:768px){
+@media(max-width:1024px){
     .pagina-carrinho .tabela-carrinho tbody{margin:0}
     .pagina-carrinho .tabela-carrinho tbody tr[data-produto-id]{
         display: grid;
         grid-template-areas:
-            "image info info trash"
-            "image info info trash"
-            "quantity value2 value value";
-        grid-template-columns: calc(25% - 10px) calc(35% - 10px) calc(20% - 10px) calc(20% - 10px);
+        "image info trash"
+        "image info trash"
+        "quantity value value";
+        grid-template-columns: calc(31% - 10px) calc(55% - 10px) calc(14% - 10px);
         border-bottom: 1px solid #f2f2f2!important;
         border: 0;
         padding: 15px 0px;
@@ -4198,7 +4206,7 @@ h4 + small,
     margin:15px 0
 }
 
-#f_entrega-modal{width:500px;max-width: 100%;}
+#f_entrega-modal{width:500px;max-width: 100%;position:fixed;}
 #f_entrega-modal .modal-body > p{
     font-size: 16px;
     text-align: center;
@@ -4332,7 +4340,8 @@ h4 + small,
     align-items: center;
     
 }
-
+.produto .acoes-produto .comprar span.visible-mobile{display:none}
+.listagem-item .produto-sobrepor{display:none}
 @media(max-width:1024px){
     :root{
         
@@ -4343,7 +4352,7 @@ h4 + small,
         
         /* TITLES */
         --titleFontSize:27px;
-    
+        --pageTitle : 27px;
         /* MENU */
         --menuFontSize: 14px;
     
@@ -4361,7 +4370,8 @@ h4 + small,
     #f_faq .titulo-categoria, #f_how .titulo-categoria{margin-left:auto;margin-right:auto;padding-right:0;padding-left:0}
     .titulo-categoria strong, .listagem h4.titulo{text-align:center;margin:0 auto}
     .titulo-categoria strong:before, .titulo-categoria strong:after, .listagem h4.titulo:before, .listagem h4.titulo:after{width:10px;height:10px;}
-    h4 + small, .titulo-categoria small{font-size:14px;text-align:center;line-height:20px;}
+    h4 + small, .titulo-categoria small,
+    [theme-content="produtos-relacionados"] h4.titulo + small{font-size:14px;text-align:center;line-height:20px;}
     #f_faq .titulo-categoria small, #f_how .titulo-categoria small{margin-top:5px}
 
     #f_header{
@@ -4441,7 +4451,10 @@ h4 + small,
     .theme_header-menu-categories{display:none}   
     .theme_header-menu-categories .menu .superior{}   
 
+    .listagem.aproveite-tambem > ul{margin:0 -25px!important}
+    .listagem.aproveite-tambem > ul:after,
     .pagina-inicial #listagemProdutos ul:after{display:none}
+    .listagem.aproveite-tambem > ul,
     .pagina-inicial #listagemProdutos ul{
         display: flex;
         overflow-x: scroll;
@@ -4450,6 +4463,7 @@ h4 + small,
         margin: 0 -15px;
         flex-wrap: nowrap;
     }
+    .listagem.aproveite-tambem > ul > li,
     .pagina-inicial #listagemProdutos ul > li{
         flex: 0 0 60%;
         width: 60%;
@@ -4537,4 +4551,229 @@ h4 + small,
     [theme-content="store-description"] p{display:none}
     #rodape .institucional .bg-gray:first-child .row-flex{margin:0 auto}
     #rodape .institucional ul{margin-bottom:15px}
+
+    .secao-banners{overflow-x:hidden}
+
+    .pagina-inicial #f_how{
+        margin-top: 2rem;
+        padding-top: 2rem;
+    }
+
+    /*PRODUTO */
+    .pagina-produto .principal .acoes-produto{
+        position: fixed;
+        z-index: 99;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 15px;
+        background: #fff;
+        margin: 0;
+        border: 0;
+        box-shadow: 0px -4px 15px rgb(0 0 0 / 15%);
+    }
+    .pagina-produto .secao-principal > .produto > .row-fluid:first-child .acoes-produto .comprar{max-width:185px}
+    .pagina-produto .principal .acoes-produto,
+    .pagina-produto .secao-principal > .produto > .row-fluid:first-child .acoes-produto[style="display: block;"]{
+        flex-direction: row!important;
+        justify-content: space-between;
+    }
+    .pagina-produto .secao-principal > .produto > .row-fluid:first-child .acoes-produto[style="display: none;"]{display:none!important}
+    .pagina-produto .principal .acoes-produto .botao-comprar{font-size:0!important;line-height:0!important;}
+    .pagina-produto .principal .acoes-produto .botao-comprar span{
+        content:"Comprar";
+        font-size:20px;
+        line-height:30px;
+        display:block;
+    }
+    .pagina-produto .principal .acoes-produto .preco-produto s.preco-venda{font-size:11.2px}
+    .pagina-produto .principal .acoes-produto .preco-produto strong[data-sell-price]{font-size:17.5px}
+
+    .produto > .row-fluid:first-child:before,
+    .produto > .row-fluid:first-child:after{display:none}
+
+    .apx_productMobileInfo h1{
+        font-family: var(--titleFontFamily);
+        text-transform: var(--titleFontTransform);
+        font-weight: var(--titleFontWeight);
+        font-size: var(--titleFontSize);
+        text-align: center;
+        display: block;
+        padding: 0 0 10px 0;
+        width: 100%;
+        position: relative;
+        color: var(--titleFontColor);
+        line-height: initial;
+    }
+    .codigo-produto *{font-size:11px}
+    .pagina-produto .codigo-produto{
+        justify-content:center;
+        border: 0;
+        padding-bottom: 0;
+    }
+    .pagina-produto .f_product-col-1{max-width:100%;box-sizing:border-box}
+    .apx_productMobileInfo [theme-content="labels"]{justify-content: center;}
+    .theme_excerpt{
+        font-size: 12px;
+        line-height: 18px;
+        text-align: center;
+        margin: 0 0 1rem 0;
+    }
+
+    .f_product-section-title, [theme-content="produtos-relacionados"] h4.titulo{
+        font-size: 18px;
+        margin: 2rem auto 1rem auto;
+    }
+    [theme-content="lista-ingredientes"]{gap:15px}
+    [theme-content="lista-ingredientes"]:not(:empty){margin-bottom:3rem}
+    [theme-content="lista-ingredientes"] span{
+        max-width: 21.5%;
+        font-size:11px;
+    }
+    [theme-content="lista-ingredientes"] span img{height:auto;width:100%;}
+    .f_extra_content{padding:0;}
+    [theme-content="tabela-nutricional"] .nutricao-item > span{font-size:12px}
+    [theme-content="tabela-nutricional"] .nutricao-item{margin-bottom:15px;}
+
+    
+    .visible-phone .theme_header-menu-categories{display:block;}
+    .visible-phone .theme_header-menu-categories .icon-chevron-down,
+    .visible-phone .theme_header-menu-categories .nivel-dois{display:none!important;}
+    .visible-phone .theme_header-menu-categories .nivel-um strong.titulo{font-size:14px;margin:0}
+    .visible-phone .theme_header-menu-categories .nivel-um > li{padding:0}
+    .visible-phone .theme_header-menu-categories .nivel-um button{margin:0!important;}
+    .visible-phone .theme_header-menu-categories .nivel-um:before,
+    .visible-phone .theme_header-menu-categories .nivel-um:after{display:none}
+    .visible-phone .theme_header-menu-categories .nivel-um{
+        border: 0;
+        box-sizing: border-box;
+        padding: 10px 20px;
+        margin: 20px -22.5px -20px -22.5px;
+        background: #fff;
+        display: flex;
+        gap: 30px;
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+        white-space: nowrap;
+        justify-content: center;
+    }
+
+    #f_entrega-modal{margin:0 15px!important}
+    #f_entrega-modal form{display: flex;flex-direction: column;}
+    #f_entrega-modal form button{width:100%}
+
+    [theme-content="tabela-nutricional"] .f_tabela-nutricional-expert {flex-wrap:wrap}
+    [theme-content="tabela-nutricional"] .f_tabela-nutricional-expert > span{font-size:14px;flex:0 0 100%;gap:15px;}
+    [theme-content="tabela-nutricional"] .f_tabela-nutricional-expert > span input{
+        font-size: 14px;
+        width: 60px;
+        height: 36px;
+    }
+    [theme-content="tabela-nutricional"] .f_tabela-nutricional-expert > button{
+        padding: 4px 20px 5px 20px;
+        margin: 15px 0 -45px auto;
+    }
+    [theme-content="tabela-nutricional"] .f_tabela-nutricional-expert > button span{font-size:11px}
+    [theme-content="tabela-nutricional"] .f_tabela-nutricional-expert > button img{display:none}
+    [theme-content="produtos-relacionados"] h4.titulo + small{margin-bottom:0}
+
+    .pagina-produto .cep{
+        border: 0!important;
+        margin: 0!important;
+        background: #f8f8f8;
+        padding: 0 15px 15px 15px;
+        border-radius: 10px;
+    }
+    .pagina-produto .cep label{font-size:14px;margin-bottom:0;}
+    .pagina-produto .cep ul.borda-alpha{margin-bottom:10px;}
+    .pagina-produto .cep ul.borda-alpha,
+    .pagina-produto .cep ul.borda-alpha *{
+        background: #fff!important;
+        border-radius: 5px;
+    }
+    .tabela-carrinho .subtotal span,
+    .tabela-carrinho .subtotal strong{font-size:16px;}
+
+    #theme_sideCart #theme_sideCart-content .table-body tr{margin:0}
+
+    #theme_sideCart .tabela-carrinho .produto-info a{-webkit-line-clamp: 2;}
+    
+    #theme_header-functions-app ul{display:none}
+    #f_header > .conteiner-fluid > .row-flex:first-child > .col:first-child{
+        -webkit-flex-basis: 0;
+        flex-basis: 0;
+        -webkit-flex-grow: 1;
+        -moz-box-flex: 1;
+        flex-grow: 1;
+        max-width: 100%;
+        padding-right: 7.5px;
+        padding-left: 7.5px;
+    }
+    #theme_header-back > a{
+        padding: 4px 5px 10px 9px;
+        border-radius: 5px;
+        background: var(--verde_dark);
+        width: 20px;
+        height: 20px;
+        display: block;
+    }
+    #theme_header-back i:after, #theme_header-back i:before{background:#fff}
+
+    .cabecalho-interno .titulo small{font-size:14px!important;}
+
+
+    .pagina-carrinho .tabela-carrinho .produto-info a{font-size:12px;}
+
+    .pagina-carrinho .icon-trash:before{
+        height: 16px;
+        width: 16px;
+        background-size: contain;
+    }
+    .pagina-carrinho .tabela-carrinho .quantidade a.icon-plus:after{
+        height: 9px;
+        right: 4px;
+    }
+    .pagina-carrinho .tabela-carrinho .quantidade a.icon-minus:before,
+    .pagina-carrinho .tabela-carrinho .quantidade a.icon-plus:before{
+        width: 9px;
+        bottom: 4px;
+    }
+    .pagina-carrinho .tabela-carrinho .quantidade a.icon-plus,
+    .pagina-carrinho .tabela-carrinho .quantidade a.icon-minus{
+        width: 9px;
+        height: 9px;
+        border: 0;
+    }
+    .pagina-carrinho .tabela-carrinho .quantidade input[type="text"]{
+        height: 28px;
+    font-size: 14px;
+    width: 28px;
+    margin: 0 5px;
+    }
+    .pagina-carrinho .tabela-carrinho .quantidade{
+        width: fit-content;
+        border: 1px solid #f2f2f2;
+        padding: 0 15px;
+        border-radius: var(--borderRadius)!important;
+    }
+
+    .pagina-carrinho .tabela-carrinho tbody tr[data-produto-id] td:nth-child(5) *{
+        font-size:16px;
+        line-height:31px;
+    }
+    .pagina-carrinho .tabela-carrinho tbody tr[data-produto-id] td:nth-child(3){
+        grid-area: value;
+        padding-right: 90px;
+        box-sizing: border-box;
+    }
+    .pagina-carrinho .tabela-carrinho tbody tr[data-produto-id] td:nth-child(3) > div > div *{
+        font-size:14px!important;
+        line-height:31px;
+    }
+    .pagina-carrinho .tabela-carrinho tbody tr[data-produto-id] td:nth-child(3) .titulo:after{content:"/un"}
+    .pagina-carrinho .tabela-carrinho tbody tr[data-produto-id] td:nth-child(3) > div > div *{margin:0}
+    .pagina-carrinho .tabela-carrinho tbody tr[data-produto-id] td:nth-child(3) > div > div{display:flex;align-items:center;gap:10px;}
+
+    .cabecalho-interno .titulo{margin:1rem auto 0 auto; padding:0}
 }

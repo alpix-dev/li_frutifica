@@ -225,22 +225,10 @@ theme.settings.sliders.relateds = {
     nextArrow: theme.settings.sliders.config.nextArrow,
     responsive: [
         {
-        breakpoint: 1024,
-        settings: {
-            slidesToShow: 2,
-            slidesToScroll: 1,            
-            centerMode:true
+            breakpoint:1000,
+            settings:"unslick"
         }
-        },
-        {
-        breakpoint: 480,
-        settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1,
-            centerMode:true
-        }
-        }
-    ]  
+    ] 
 }
 
 theme.settings.sliders.verticalProductGallery = {
@@ -376,7 +364,7 @@ theme.build.header = function(template){
     }
 
     $(document).ready(function(){
-        $('#theme_header-menu-categories .nivel-um').append('<li><button id="f_entrega" data-toggle="modal" data-target="#f_entrega-modal" type="button">Entrega aqui?</button></li>');
+        $('.theme_header-menu-categories .nivel-um').append('<li><button id="f_entrega" data-toggle="modal" data-target="#f_entrega-modal" type="button">Entrega aqui?</button></li>');
         $('body').append('<div class="modal hide fade modal" id="f_entrega-modal"> <div class="modal-header"> <h5 class="modal-title">Consultar área de entrega</h5> <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"> <span aria-hidden="true">&times;</span> </button> </div><div class="modal-body"><p>Insira o CEP de entrega no formulário abaixo e confirme se a região está em nossa área de cobertura.</p> <form> <div class="form-group"> <label for="cep">CEP:</label> <input type="text" required class="form-control" id="cep" placeholder="00000-000"> </div><button type="submit" class="btn btn-primary">Verificar</button> </form> <div id="f_entrega-modal-result"></div></div></div>');
         $('#f_entrega-modal form input').mask('00000-000');
         $('#f_entrega-modal form').submit(function(e){
@@ -1144,7 +1132,12 @@ theme.functions.init = function(){
         $('html').attr('alpix-theme',window.LOJA_ID);
         try{
             $(document).ready(function(){
-                theme.functions[theme.currentPage]();
+                try{
+                    console.log('load functions - ' + theme.currentPage)
+                    theme.functions[theme.currentPage]();
+                }catch(e){
+                    console.log(e)
+                }
                 theme.functions.productListActions();    
             });
         }catch(e){}
@@ -1568,11 +1561,16 @@ theme.functions['pagina-categoria'] = function(){
 theme.functions['pagina-busca'] = theme.functions['pagina-categoria'];
 theme.functions['pagina-marca'] = theme.functions['pagina-categoria'];
 theme.functions['pagina-produto'] = function(){
-    $('.produto > .row-fluid:first-child > .span6:first-child').toggleClass('span6 col');
-    $('.produto > .row-fluid:first-child > .span6:last-child').toggleClass('span6 col-auto');
-    $('.produto > .row-fluid:first-child > .col').addClass('f_product-col-1');
-    $('.produto > .row-fluid:first-child > .col-auto').addClass('f_product-col-2-fix');
-    $('.produto > .row-fluid:first-child').toggleClass('row-fluid row-flex');
+    // $('.produto > .row-fluid:first-child > .span6:first-child').toggleClass('span6 col');
+    // $('.produto > .row-fluid:first-child > .span6:last-child').toggleClass('span6 col-auto');
+    let indicator = theme.isMobile ? ":nth-child(2)" : ':first-child';
+    if(theme.isMobile){}
+    $('.produto > .row-fluid'+indicator+' > .span6:first-child').toggleClass('span6 col');
+    $('.produto > .row-fluid'+indicator+'> .span6:last-child').toggleClass('span6 col-auto');
+
+    $('.produto > .row-fluid'+indicator+' > .col').addClass('f_product-col-1');
+    $('.produto > .row-fluid'+indicator+' > .col-auto').addClass('f_product-col-2-fix');
+    $('.produto > .row-fluid'+indicator+'').toggleClass('row-fluid row-flex');
 
     $('.f_product-col-1').append('<div class="f_extra_content"></div>')
     $('.f_product-col-1 .f_extra_content').append('<div theme-content="lista-ingredientes"></div>');
@@ -1580,12 +1578,13 @@ theme.functions['pagina-produto'] = function(){
     $('.f_product-col-1 .f_extra_content').append('<div theme-content="produtos-relacionados"></div>');
     $('.f_product-col-1 .f_extra_content').append('<div theme-content="modo-preparo"></div>');
     $('.f_product-col-1 .f_extra_content').append('<div theme-content="descricao-html"></div>');
+    $('.span12.produto .codigo-produto').after('<div theme-content="labels"></div>');  
 
     $('.abas-custom').appendTo('[theme-content="descricao-html"]');
     $('.aproveite-tambem').appendTo('[theme-content="produtos-relacionados"]');
     $('.aproveite-tambem > ul').apx_slick(theme.settings.sliders.relateds);
 
-    $('.f_product-col-2-fix .codigo-produto').after('<div theme-content="labels"></div>');
+    
 
 
 
@@ -1709,6 +1708,15 @@ theme.functions['pagina-produto'] = function(){
     $('.botao-comprar-ajax').removeAttr('data-loading-text');
     $('.botao-comprar-ajax').addClass('theme_buttonBuy-ajax').removeClass('botao-comprar-ajax');
     
+    $('.pagina-produto .principal .acoes-produto .botao-comprar').append('<span class="visible-mobile">Comprar</span>');
+    
+    
+    if(theme.isMobile){
+        $('h1.nome-produto, h1.nome-produto + .codigo-produto,  .theme_excerpt').wrapAll('<div class="apx_productMobileInfo"></div>');
+        $('.produto [theme-content="labels"]').insertAfter('.apx_productMobileInfo .codigo-produto');
+        $('.apx_productMobileInfo').prependTo('.span12.produto');
+        $('.principal .cep').insertBefore('.f_extra_content');
+    }
 };
 
 theme.functions['pagina-carrinho'] = function(){
@@ -2065,6 +2073,7 @@ $(window).load(function(){
         $('.listagem-item .produto-sku').each(function(){
             let item = db_produtos.find(el => el.sku.trim() == $(this).text().trim());            
             let etiqueta_box = $(this).closest('.listagem-item').find('[theme-content="labels"]');
+            //console.log(item);
             if(item){
                 let labels = item.ids_etiquetas.toString().includes(';') ? item.ids_etiquetas.split(';') : [item.ids_etiquetas.toString()];
                 $.each(labels,function(k,id_){
@@ -2080,9 +2089,9 @@ $(window).load(function(){
     if($('.pagina-produto').length > 0 && db_produtos && db_etiquetas && db_ingredientes){
         let sku = $('[itemprop="sku"]').text().trim();
         let item = db_produtos.find(el => el.sku.trim() == sku); 
-        let etiqueta_box = $('.f_product-col-2-fix').find('[theme-content="labels"]');
+        let etiqueta_box = $('.produto').find('.codigo-produto + [theme-content="labels"]');
         let ingrediente_box = $('[theme-content="lista-ingredientes"]');
-        let info_box = $('.f_product-col-2-fix').find('.codigo-produto');
+        let info_box = $('.span12.produto').find('.codigo-produto');
         
         if(item){
             //labels
