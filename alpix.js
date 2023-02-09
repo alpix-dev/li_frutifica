@@ -358,6 +358,8 @@ theme.build.header = function(template){
 
     
 
+    
+
     //theme.settings.invertHeader
     if(theme.settings.invertHeader == true){
         $('#cabecalho').addClass('theme_invert');
@@ -392,7 +394,16 @@ theme.build.header = function(template){
         if(sessionStorage.getItem('apx_zip')){
             $('.input-cep').val(sessionStorage.getItem('apx_zip'));
         }
-    })
+
+        $('#theme_menu-aside').prepend(theme.searchForm);
+
+        if(theme.isMobile){
+            $('#theme_menu-aside').prepend('<div id="user-mobile"><a href="/conta/login">'+ theme.icon.account +'<div><b>Olá, <span>'+ theme.userFirstname+ '</span></b>'+ (theme.userFirstname == "Visitante" ? 'Faça login ou cadastre-se' : 'Minha Conta')+'</div></a></div>');
+            
+        }
+    });
+
+    
     
 };
 theme.build.headerApp = function(){
@@ -2122,7 +2133,7 @@ $(window).load(function(){
             });
 
             //tabela nutricional
-            let tabela = [];
+            var tabela = [];
             tabela.kcal = parseFloat(item.kcal);
             tabela.carb_g = parseFloat(item.carb_g);
             tabela.prot_g = parseFloat(item.prot_g);
@@ -2130,14 +2141,22 @@ $(window).load(function(){
             tabela.gord_t_g = parseFloat(item.gord_t_g);
             tabela.sod_mg = parseFloat(item.sod_mg);
 
-            // theme.settings.tabela.kcal = 2000;
-            // theme.settings.tabela.carb = 150;
-            // theme.settings.tabela.prot = 100;
-            // theme.settings.tabela.gord = 50;
-            // theme.settings.tabela.gord_t = 10;
-            // theme.settings.tabela.sod_mg = 500;
+            theme.settings.tabela.kcal = 2000;
+            theme.settings.tabela.carb = 300;
+            theme.settings.tabela.prot = 75;
+            theme.settings.tabela.gord = 55;
+            theme.settings.tabela.gord_t = 0;
+            theme.settings.tabela.sod_mg = 2000;
 
-            let block = '<div class="nutricao-item"><span>{title}<b>{percent} - {current} {measure}</b></span><div class="graph" data-table="{max}" data-current="{current}"><span style="width:{percent}"></span></div></div>'
+            theme.customTable = [];
+            theme.customTable.kcal = 0;
+            theme.customTable.carb = 0;
+            theme.customTable.prot = 0;
+            theme.customTable.gord = 0;
+            theme.customTable.gord_t = 0;
+            theme.customTable.sod_mg = 0;
+
+            let block = '<div class="nutricao-item"><span>{title}<b>{percent} - {current} {measure}</b></span><div class="graph" data-item="{title}" data-table="{max}" data-current="{current}"><span style="width:{percent}"></span></div></div>'
             
             let tabela_box = $('[theme-content="tabela-nutricional"]');
             if(tabela.kcal){
@@ -2186,7 +2205,7 @@ $(window).load(function(){
                 oObj = oObj.replaceAll('{measure}','g');
                 oObj = oObj.replaceAll('{max}',theme.settings.tabela.gord_t);
                 oObj = oObj.replaceAll('{current}',tabela.gord_t_g);
-                oObj = oObj.replaceAll('{percent}', ((tabela.gord_t_g / theme.settings.tabela.gord_t) * 100).toFixed(0) + '%');
+                oObj = oObj.replaceAll('{percent}', tabela.gord_t_g > 0 ? '100%' : '0%');
                 tabela_box.append(oObj);
             }
 
@@ -2205,6 +2224,47 @@ $(window).load(function(){
                 tabela_box.prepend('<div class="f_tabela-nutricional-expert"><span>Baseado em uma dieta de <input type="text" value="2000"/> kcal por dia</span> <button type="button"><img src="https://cdn.awsli.com.br/2517/2517596/arquivos/gym.svg"/><span>Editar macros</span></button></div>');
 
             }
+
+            $('.f_tabela-nutricional-expert input').change(function(){
+                let kcal = parseInt($(this).val());
+                let diff = kcal / theme.settings.tabela.kcal;
+                theme.customTable.kcal = kcal;
+                theme.customTable.carb = theme.settings.tabela.carb * diff;
+                theme.customTable.prot = theme.settings.tabela.prot * diff;
+                theme.customTable.gord = theme.settings.tabela.gord * diff;
+                theme.customTable.gord_t = theme.settings.tabela.gord_t * diff;
+                theme.customTable.sod_mg = theme.settings.tabela.sod_mg * diff;
+                
+                let count;
+                count = ((tabela.kcal / theme.customTable.kcal) * 100).toFixed(0) + '%';
+                $('[data-item="Valor Energético"]').attr('data-table',theme.customTable.kcal);
+                $('[data-item="Valor Energético"]').closest('.nutricao-item').children('span').find('b').text(count + ' - ' + tabela.kcal + ' kcal')
+                $('[data-item="Valor Energético"] span').css('width',count);
+                
+                count = ((tabela.carb_g / theme.customTable.carb) * 100).toFixed(0) + '%'
+                $('[data-item="Carboidratos"]').attr('data-table',theme.customTable.carb);
+                $('[data-item="Carboidratos"]').closest('.nutricao-item').children('span').find('b').text(count + ' - ' + tabela.carb_g + ' g')
+                $('[data-item="Carboidratos"] span').css('width',count);
+
+                count = ((tabela.prot_g / theme.customTable.prot) * 100).toFixed(0) + '%'
+                $('[data-item="Proteínas"]').attr('data-table',theme.customTable.prot);
+                $('[data-item="Proteínas"]').closest('.nutricao-item').children('span').find('b').text(count + ' - ' + tabela.prot_g + ' g')
+                $('[data-item="Proteínas"] span').css('width',count);
+
+                count = ((tabela.gord_g / theme.customTable.gord) * 100).toFixed(0) + '%'
+                $('[data-item="Gorduras"]').attr('data-table',theme.customTable.gord);
+                $('[data-item="Gorduras"]').closest('.nutricao-item').children('span').find('b').text(count + ' - ' + tabela.gord_g + ' g')
+                $('[data-item="Gorduras"] span').css('width',count);
+
+                //$('[data-item="Gorduras Trans"]').attr('data-table',theme.customTable.gord_t);
+                
+                count = ((tabela.sod_mg / theme.customTable.sod_mg) * 100).toFixed(0) + '%'
+                $('[data-item="Sódio"]').attr('data-table',theme.customTable.sod_mg);
+                $('[data-item="Sódio"]').closest('.nutricao-item').children('span').find('b').text(count + ' - ' + tabela.sod_mg + ' mg')
+                $('[data-item="Sódio"] span').css('width',count);
+
+
+            });
             
         }
     }
