@@ -341,6 +341,7 @@ theme.build.header = function(template){
     
     $('#theme_header-functions').append('<li>' + theme.headerCart + '</li>');
     $('#theme_header-functions').prepend('<li><button type="button" class="account-trigger">'+ theme.icon.account +'<div><b>Olá, <span>'+ theme.userFirstname+ '</span></b>'+ (theme.userFirstname == "Visitante" ? 'Faça login ou cadastre-se' : 'Minha Conta')+'</div></button></li>');
+    $('#theme_header-functions').prepend('<li><a class="best_purchase" href="/melhorpreco">Melhor Preço</a></li>');
         
     $('.carrinho .icon-shopping-cart').before(theme.icon.cart);
     $('.carrinho .icon-shopping-cart').remove();
@@ -593,18 +594,18 @@ theme.comoFunciona.subtitle = "Lorem ipsum dolor sit amet, consectetuer adipisci
 theme.comoFunciona.itens = [];
 theme.comoFunciona.itens.push({
     img : 'https://via.placeholder.com/260x260',
-    title: 'Escolha e compre sua refeição deliciosa',
-    description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. '
+    title: 'Escolha seus Favoritos',
+    description: 'Selecione os pratos ou kits de acordo com seu desejo, no site ou no Whatsapp.'
 });
 theme.comoFunciona.itens.push({
     img : 'https://via.placeholder.com/260x260',
-    title: 'Escolha e compre sua refeição deliciosa',
-    description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. '
+    title: 'Finalize seu Pedido',
+    description: 'Agende a data e período de preferência. Após isso, efetue o pagamento online ou no ato da entrega.'
 });
 theme.comoFunciona.itens.push({
     img : 'https://via.placeholder.com/260x260',
-    title: 'Escolha e compre sua refeição deliciosa',
-    description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec odio. Quisque volutpat mattis eros. '
+    title: 'Monte sua Rotina',
+    description: 'Assim que receber, armazene corretamente no seu congelador e pronto! Depois é só levar diretamente no banho maria ou microondas por 6 a 8 min! Aproveite!'
 });
 
 theme.perguntasFrequentes = [];
@@ -2224,6 +2225,8 @@ $(window).load(function(){
                 tabela_box.prepend('<div class="f_tabela-nutricional-expert"><span>Baseado em uma dieta de <input type="text" value="2000"/> kcal por dia</span> <button type="button"><img src="https://cdn.awsli.com.br/2517/2517596/arquivos/gym.svg"/><span>Editar macros</span></button></div>');
 
             }
+
+            
 
             $('.f_tabela-nutricional-expert input').change(function(){
                 let kcal = parseInt($(this).val());
