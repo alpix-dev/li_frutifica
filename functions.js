@@ -786,26 +786,50 @@ theme.functions.datepicker = function(){
         beforeShowDay: function(date){
             let day = date.getUTCDay();
             let validDate = new Date();
-            validDate.setDate(validDate.getDate() + 2)
-            let available_days = schedule_config.filter(el => el.active == true && el.periods.length > 0).map(function(item){return item.weekday})
-            let disabled_days =  schedule_details.filter(el => el.active == false).map(function(item){
-                let disabledDateString = item.date;
-                let disabledDateParts = disabledDateString.split("/");
-                let disabledDate = new Date(disabledDateParts[2], disabledDateParts[1] - 1, disabledDateParts[0]);
-                return disabledDate
-            });
-            if (date < validDate) {
-                return [false, ""];
-            }else{
-                if(available_days.includes(day)){
-                    if(disabled_days.find(el => el.getDate() == date.getDate() && el.getMonth() == date.getMonth() && el.getFullYear() == date.getFullYear())){
-                        return [false,""];
+            validDate.setDate(validDate.getDate() + 2);
+            let zip = $('#id_cep').val() || $('[data-cep]').attr('data-cep');
+            zip = zip.length >= 8 ? parseInt(zip.replace('-','')) : false;
+            if(zip){
+                console.log(zip)
+                //let available_days = schedule_config.filter(el => el.active == true && el.periods.length > 0).map(function(item){return item.weekday})
+                let available_days = schedule_config.filter(el => el.active == true && (zip >= el.range.min && zip <= el.range.max) && el.periods.length > 0).map(function(item){return item.weekday})
+                console.log(available_days)
+                let disabled_days =  schedule_details.filter(el => el.active == false).map(function(item){
+                    let disabledDateString = item.date;
+                    let disabledDateParts = disabledDateString.split("/");
+                    let disabledDate = new Date(disabledDateParts[2], disabledDateParts[1] - 1, disabledDateParts[0]);
+                    return disabledDate
+                });
+                let temp_available_days = []
+                $.each(available_days, function(k_, i_){
+                    if(Array.isArray(i_)){
+                        $.each(i_, function(k__, i__){
+                            temp_available_days.push(i__)    
+                        })
                     }else{
-                        return [true,""];
+                        temp_available_days.push(i_)
                     }
+                });
+
+                console.log('temp_available_days',temp_available_days)
+
+                available_days = temp_available_days;
+                if (date < validDate) {
+                    return [false, ""];
                 }else{
-                    return [false, ""]
+                    
+                    if(available_days.includes(day)){
+                        if(disabled_days.find(el => el.getDate() == date.getDate() && el.getMonth() == date.getMonth() && el.getFullYear() == date.getFullYear())){
+                            return [false,""];
+                        }else{
+                            return [true,""];
+                        }
+                    }else{
+                        return [false, ""]
+                    }
                 }
+            }else{
+                return [false,'']
             }
             
         },
@@ -818,9 +842,16 @@ theme.functions.datepicker = function(){
             
             let rules = schedule_details.find(el => el.date == dateText);
             if(!rules){
-                rules = schedule_config.find(el => el.weekday == day);
+                rules = schedule_config.find(el => el.weekday.includes(day));
             }
-            let schedule_db = db_controle_agendamento.find(el => el.date == theme.functions.dateFormatNormalToISO(dateText));
+            
+            let zip = $('#id_cep').val() || $('[data-cep]').attr('data-cep');
+            zip = zip.length >= 8 ? parseInt(zip.replace('-','')) : false;
+
+            let schedule_db = db_controle_agendamento.find(el => el.date == theme.functions.dateFormatNormalToISO(dateText) && (zip >= parseInt(el.zip_range.split('_')[0]) && zip <= parseInt(el.zip_range.split('_')[1])));
+            //let schedule_db = db_controle_agendamento.find(el => el.date == theme.functions.dateFormatNormalToISO(dateText));
+            console.log(schedule_db)
+            console.log(rules);
             $('#hr_entrega').html('<option value="">Escolha a data...</option>');
             $.each(rules.periods, function(k, period){                
                 if(schedule_db && schedule_db['delivery_count["'+ period.title +'"]']){
@@ -1500,14 +1531,19 @@ theme.functions['pagina-pedido-finalizado'] = function(){
                     order.periodo_agendamento = item_.trim().split(':')[1].trim();
                 } 
                 if(item_.trim().split(':')[0] == "Horário da entrega"){
-                    order.schedule_open = item_.trim().split(':')[1].trim() + ':' + item_.trim().split(':')[2].trim();
+                    order.schedule_open = item_.trim().replace('Horário da entrega:','');
                 } 
             });
         }        
     });
-    console.log(order);    
-
+    //console.log(order);    
     if(!sessionStorage.getItem('order_' + order.num_pedido)){
+        let zip = parseInt(order.cep.replace('-',''));
+        //console.log(zip)
+        let zip_range = schedule_config.find(el => el.active == true && (zip >= el.range.min && zip <= el.range.max) && el.periods.length > 0);
+        //console.log(zip_range)
+        let zip_range_str = zip_range.range.min + '_' + zip_range.range.max;
+        
         sessionStorage.setItem('order_' + order.num_pedido, true);
         $.post(ws_url.replace('?action=read',''), {
             sheetName: 'db_agendamentos',
@@ -1516,11 +1552,11 @@ theme.functions['pagina-pedido-finalizado'] = function(){
             num_pedido : order.num_pedido,
             data_agendamento : order.data_agendamento,
             periodo_agendamento : order.periodo_agendamento,
-            schedule_open : order.schedule_open
+            schedule_open : order.schedule_open,
+            zip_range : zip_range_str
         }, function(data){
             console.log(data)
         }, "json"); 
-
     }
 };
 
