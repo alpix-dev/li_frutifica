@@ -925,7 +925,7 @@ theme.functions.datepicker = function(){
     if(theme.formas_pag_entrega.length > 0){
         $('#id_escolher_tipo_pagamento').closest('.entrega-form-group').hide();
         $('#id_escolher_tipo_pagamento').closest('.entrega-form-group').before('<div class="extra-fields custom-formas-entrega"><label>Forma de pagamento na entrega:</label><div class="controls"><select required><option>Selecione...</option></select></div></div>');
-        $('#id_escolher_tipo_pagamento option:last-child').attr('selected','selected');
+        // $('#id_escolher_tipo_pagamento option:last-child').attr('selected','selected');
 	$('#id_escolher_tipo_pagamento option:last-child').prop('selected', true);
         $('#id_escolher_tipo_pagamento').change();
         $.each(theme.formas_pag_entrega, function(k,v){
