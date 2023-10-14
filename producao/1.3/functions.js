@@ -448,7 +448,7 @@ theme.build.header = function(template){
             let btn = $(this).find('button');
             let apx_zip = $(this).find('input').val()
             btn.attr('disabled','true');
-            $.get('/carrinho/frete?cep='+ apx_zip +'&produto_id=194547534&quantidade=1', function(data, status){
+            $.get('/carrinho/frete?cep='+ apx_zip +'&produto_id=130135051&quantidade=1', function(data, status){
                 let dt = data;
                 //let dt = JSON.parse(data);
                 console.log(dt);
