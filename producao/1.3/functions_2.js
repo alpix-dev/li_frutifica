@@ -951,7 +951,7 @@ theme.functions.datepicker = function(){
         selectOtherMonths: true,
         beforeShowDay: function(date){
             let day = date.getUTCDay();
-            let validDate = theme.functions.addBusinessDays(new Date(), 1);
+            let validDate = theme.functions.addBusinessDays(new Date(), window.DIAS_UTEIS);
             
             //validDate.setDate(validDate.getDate() + 2);
             
