@@ -71,6 +71,13 @@ let ENV_ = "https://cdn.jsdelivr.net/gh/alpix-dev/li_frutifica/";
 
 }( jQuery ));
 
+window.addEventListener('load', () => {
+          setTimeout(()=>{
+                  $(".theme_excerpt").html($("#descricao").html())
+                   $(".theme_excerpt").css("opacity",1)
+          },2000)  
+ })
+
 const theme = [];
 
 theme.info = {};
