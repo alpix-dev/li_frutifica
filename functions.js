@@ -2091,6 +2091,8 @@ theme.functions['pagina-produto'] = function(){
     
 };
 
+$(".theme_excerpt").html($("#descricao").html()); //Estilo descrição produto
+
 theme.functions['pagina-carrinho'] = function(){
     if($('.carrinho-checkout').length > 0){
         //OPEN FORM
