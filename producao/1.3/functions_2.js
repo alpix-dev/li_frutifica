@@ -71,11 +71,6 @@ let ENV_ = "https://cdn.jsdelivr.net/gh/alpix-dev/li_frutifica/";
 
 }( jQuery ));
 
-
-$(".theme_excerpt").html($("#descricao").html());
-$(".theme_excerpt").css("opacity",1);
-
-
 const theme = [];
 
 theme.info = {};
@@ -2091,6 +2086,8 @@ theme.functions['pagina-produto'] = function(){
 
     
 };
+
+$(".theme_excerpt").html($("#descricao").html()); //Estilo descrição produto
 
 theme.functions['pagina-carrinho'] = function(){
     if($('.carrinho-checkout').length > 0){
