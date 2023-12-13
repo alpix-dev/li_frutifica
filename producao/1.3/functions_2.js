@@ -1951,11 +1951,9 @@ theme.functions['pagina-produto'] = function(){
     //     });
     // }    
 
-    // if($('meta[name="description"]').attr('content').length > 0 && theme.settings.productExcerpt){
-    //     $('<p class="theme_excerpt">'+ $('meta[name="description"]').attr('content') +'</p>').appendTo('.info-principal-produto');
-    // } 12/12/2023 - código impede descrição do produto de receber estilo CSS
-
-     $(".theme_excerpt").html($("#descricao").html()); //Estilo descrição produto  referente ao código acima ^^^^^^^^^^^^
+    if($('meta[name="description"]').attr('content').length > 0 && theme.settings.productExcerpt){
+        $('<p class="theme_excerpt">'+ $('meta[name="description"]').attr('content') +'</p>').appendTo('.info-principal-produto');
+    } 12/12/2023 - código impede descrição do produto de receber estilo CSS
 
     $('.produto-thumbs img').each(function(){
         let crop = $(this).attr('src').split('/')[3];
