@@ -2529,7 +2529,7 @@ $(window).load(function(){
                 }
             });
             if(ingrediente_box.html() != ""){
-                ingrediente_box.before('<h2 class="f_product-section-title">Ingredientes</h2>')
+                ingrediente_box.before('<h2 class="f_product-section-title">Principais Ingredientes</h2>')
             }
 
             //infos
