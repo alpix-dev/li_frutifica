@@ -2530,7 +2530,7 @@ $(window).load(function(){
             });
             if(ingrediente_box.html() != ""){
                 ingrediente_box.before('<h2 class="f_product-section-title">Principais Ingredientes</h2>');
-		ingrediente_box.after('<div><h2 class="f_product-section-title">Alerta para Alérgicos</h2><p style="font-size: 18px; color: #a7a9ac; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;"><strong>ALÉRGICOS:</strong> Pode conter Trigo e Derivados, Aveia, Centeio, Cevada, Ovos, Soja, Leite e Latex.</p></div>');
+		ingrediente_box.after('<div><h2 class="f_product-section-title">Alerta para Alérgicos</h2><p style="font-size: 18px; color: #a7a9ac; font-family: Helvetica !important;"><strong>ALÉRGICOS:</strong> Pode conter Trigo e Derivados, Aveia, Centeio, Cevada, Ovos, Soja, Leite e Latex.</p></div>');
             }
 
             //infos
