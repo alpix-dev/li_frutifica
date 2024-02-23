@@ -756,7 +756,7 @@ theme.functions.responsiveLogo = function(src){
 theme.functions.addBusinessDays = function (date, days) {
     let count = 0;
     while (count < days) {
-        date.setDate(date.getDate() + 1);
+        date.setDate(date.getDate());
         if (date.getDay() !== 0 && date.getDay() !== 6) {
             count++;
         }
