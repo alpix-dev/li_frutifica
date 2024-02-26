@@ -1001,7 +1001,7 @@ theme.functions.datepicker = function(){
 		console.log(fixedDate)
 		console.log(fixedValidDate)
 		    
-                if (fixedDate < FixedValidDate) {
+                if (fixedDate < fixedValidDate) {
                     return [false, ""];
                 }else{
                     
