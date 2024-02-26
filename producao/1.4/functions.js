@@ -953,10 +953,9 @@ theme.functions.datepicker = function(){
         beforeShowDay: function(date){
             let day = date.getUTCDay();
             let validDate = theme.functions.addBusinessDays(new Date(), window.DIAS_UTEIS);
-            
-		if(window.REMOVE_DIAS){
-			validDate.setDate(validDate.getDate() - window.REMOVE_DIAS);    
-		}
+            if(window.REMOVE_DIAS){
+		validDate.setDate(validDate.getDate() - window.REMOVE_DIAS);    
+	    }
             //validDate.setDate(validDate.getDate() + 2);
             
             let zip = $('#id_cep').val() ||  $('[data-cep]').val();
@@ -987,32 +986,14 @@ theme.functions.datepicker = function(){
                 console.log('temp_available_days',temp_available_days)
 
                 available_days = temp_available_days;
-		    console.log("987 Resultado customizado " + date + " , " + validDate);
-		    console.log("988 Resultado customizado " + date.getDate() + " , " + validDate.getDate());
-		
-		let fixedDay = date.getDate();
-		let fixedMonth = date.getMonth() + 1;
-		let fixedYear = date.getFullYear();
-		let fixedDate = `${fixedMonth}/${fixedDay}/${fixedYear}`;
-		fixedDate = new Date(fixedDate)
-		let fixedValidDay = validDate.getDate();
-		let fixedValidMonth = validDate.getMonth() + 1;
-		let fixedValidYear = validDate.getFullYear();
-		let fixedValidDate = `${fixedValidMonth}/${fixedValidDay}/${fixedValidYear}`;
-		fixedValidDate = new Date(fixedValidDate)
-		    
-		console.log(fixedDate)
-		console.log(fixedValidDate)
-		    
-                if (fixedDate < fixedValidDate) {
+                if (date < validDate) {
                     return [false, ""];
                 }else{
                     
                     if(available_days.includes(day)){
                         if(disabled_days.find(el => el.getDate() == date.getDate() && el.getMonth() == date.getMonth() && el.getFullYear() == date.getFullYear())){
-				return [false,""];
+                            return [false,""];
                         }else{
-			    console.log("995 Resultado customizado ");
                             return [true,""];
                         }
                     }else{
