@@ -949,6 +949,7 @@ theme.functions.datepicker = function(){
     $('#dt_entrega').datepicker({
         showOtherMonths: true,
         selectOtherMonths: true,
+	minDate: 0,
         beforeShowDay: function(date){
             let day = date.getUTCDay();
             let validDate = theme.functions.addBusinessDays(new Date(), window.DIAS_UTEIS);
@@ -989,10 +990,10 @@ theme.functions.datepicker = function(){
                 }else{
                     
                     if(available_days.includes(day)){
-                        console.log("993 Resultado customizado " + el);
                         if(disabled_days.find(el => el.getDate() == date.getDate() && el.getMonth() == date.getMonth() && el.getFullYear() == date.getFullYear())){
 				return [false,""];
                         }else{
+			    console.log("995 Resultado customizado ");
                             return [true,""];
                         }
                     }else{
