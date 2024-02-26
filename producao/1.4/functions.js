@@ -990,17 +990,18 @@ theme.functions.datepicker = function(){
 		let fixedDay = date.getDate();
 		let fixedMonth = date.getMonth() + 1;
 		let fixedYear = date.getFullYear();
-		let fixedDate = `${fixedDay}/${fixedMonth}/${fixedYear}`;
-		    
+		let fixedDate = `${fixedMonth}/${fixedDay}/${fixedYear}`;
+		fixedDate = new Date(fixedDate)
 		let fixedValidDay = validDate.getDate();
 		let fixedValidMonth = validDate.getMonth() + 1;
 		let fixedValidYear = validDate.getFullYear();
-		let fixedValidDate = `${fixedValidDay}/${fixedValidMonth}/${fixedValidYear}`;
-
+		let fixedValidDate = `${fixedValidMonth}/${fixedValidDay}/${fixedValidYear}`;
+		fixedValidDate = new Date(fixedValidDate)
+		    
 		console.log(fixedDate)
 		console.log(fixedValidDate)
 		    
-                if (date < validDate) {
+                if (fixedDate < FixedValidDate) {
                     return [false, ""];
                 }else{
                     
