@@ -949,7 +949,7 @@ theme.functions.datepicker = function(){
     $('#dt_entrega').datepicker({
         showOtherMonths: true,
         selectOtherMonths: true,
-	minDate: 0,
+	//minDate: 0,
         beforeShowDay: function(date){
             let day = date.getUTCDay();
             let validDate = theme.functions.addBusinessDays(new Date(), window.DIAS_UTEIS);
