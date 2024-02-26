@@ -983,14 +983,14 @@ theme.functions.datepicker = function(){
                 console.log('temp_available_days',temp_available_days)
 
                 available_days = temp_available_days;
-		    console.log("983 Resultado customizado " + date + " , " validDate)
+		    console.log("986 Resultado customizado " + date + " , " + validDate);
                 if (date < validDate) {
                     return [false, ""];
                 }else{
                     
                     if(available_days.includes(day)){
                         if(disabled_days.find(el => el.getDate() == date.getDate() && el.getMonth() == date.getMonth() && el.getFullYear() == date.getFullYear())){
-                            console.log("993 - Resultado customizado " + el)
+                            console.log("993 Resultado customizado " + el);
 				return [false,""];
                         }else{
                             return [true,""];
