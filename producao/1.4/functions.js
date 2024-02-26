@@ -989,8 +989,8 @@ theme.functions.datepicker = function(){
                 }else{
                     
                     if(available_days.includes(day)){
+                        console.log("993 Resultado customizado " + el);
                         if(disabled_days.find(el => el.getDate() == date.getDate() && el.getMonth() == date.getMonth() && el.getFullYear() == date.getFullYear())){
-                            console.log("993 Resultado customizado " + el);
 				return [false,""];
                         }else{
                             return [true,""];
