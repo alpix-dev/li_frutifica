@@ -984,7 +984,22 @@ theme.functions.datepicker = function(){
                 console.log('temp_available_days',temp_available_days)
 
                 available_days = temp_available_days;
-		    console.log("986 Resultado customizado " + date + " , " + validDate);
+		    console.log("987 Resultado customizado " + date + " , " + validDate);
+		    console.log("988 Resultado customizado " + date.getDate() + " , " + validDate.getDate());
+		
+		let fixedDay = date.getDate();
+		let fixedMonth = date.getMonth() + 1;
+		let fixedYear = date.getFullYear();
+		let fixedDate = `${fixedDay}/${fixedMonth}/${fixedYear}`;
+		    
+		let fixedValidDay = validDate.getDate();
+		let fixedValidMonth = validDate.getMonth() + 1;
+		let fixedValidYear = validDate.getFullYear();
+		let fixedValidDate = `${fixedValidDay}/${fixedValidMonth}/${fixedValidYear}`;
+
+		console.log(fixedDate)
+		console.log(fixedValidDate)
+		    
                 if (date < validDate) {
                     return [false, ""];
                 }else{
