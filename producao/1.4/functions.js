@@ -954,6 +954,9 @@ theme.functions.datepicker = function(){
             let day = date.getUTCDay();
             let validDate = theme.functions.addBusinessDays(new Date(), window.DIAS_UTEIS);
             
+		if(window.REMOVE_DIAS){
+			validDate.setDate(validDate.getDate() - window.REMOVE_DIAS);    
+		}
             //validDate.setDate(validDate.getDate() + 2);
             
             let zip = $('#id_cep').val() ||  $('[data-cep]').val();
