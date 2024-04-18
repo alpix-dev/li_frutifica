@@ -698,14 +698,14 @@ theme.comoFunciona.itens.push({
     description: 'Selecione os pratos ou kits de acordo com seu desejo, no site ou no Whatsapp.'
 });
 theme.comoFunciona.itens.push({
-    img : ENV_ + 'F-1-260X260.jpg',
-    title: 'Finalize seu Pedido',
-    description: 'Agende a data e período de preferência. Após isso, efetue o pagamento online ou no ato da entrega.'
-});
-theme.comoFunciona.itens.push({
     img : ENV_ + 'F-2-260X260.jpg',
     title: 'Monte sua Rotina',
     description: 'Assim que receber, armazene corretamente no seu congelador e pronto! Depois é só levar diretamente no banho maria ou microondas por 6 a 8 min! Aproveite!'
+});
+theme.comoFunciona.itens.push({
+    img : ENV_ + 'F-1-260X260.jpg',
+    title: 'Finalize seu Pedido',
+    description: 'Agende a data e período de preferência. Após isso, efetue o pagamento online ou no ato da entrega.'
 });
 
 theme.perguntasFrequentes = [];
@@ -1056,7 +1056,7 @@ theme.functions.titulos = function(){
 };
 theme.functions.comoFunciona = function(){
     //console.log('howitwork');
-    $('#theme_categorySlider').after('<div id="f_how"><div class="row-fluid"><div class="span4"><div class="titulo-categoria"><strong>'+ theme.comoFunciona.title +'</strong><small>'+ theme.comoFunciona.subtitle+'</small></div></div><div class="span8"><ul id="f_how-list"></ul></div></div></div>');
+    $('#corpo .conteiner').append('<div id="f_how"><div class="row-fluid"><div class="span4"><div class="titulo-categoria"><strong>'+ theme.comoFunciona.title +'</strong><small>'+ theme.comoFunciona.subtitle+'</small></div></div><div class="span8"><ul id="f_how-list"></ul></div></div></div>');
     $.each(theme.comoFunciona.itens, function(k,item){
         $('<li><div><img src="'+ item.img +'"/><strong>'+ item.title +'</strong><p>'+ item.description +'</p></div></li>').appendTo('#f_how-list');
     });
