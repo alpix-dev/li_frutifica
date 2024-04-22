@@ -3838,11 +3838,11 @@ h4 + small,
 
 .pagina-produto .f_product-col-1{
     /* max-width:calc(100% - 680px); */
-    max-width: 39%;
+    max-width: 38%;
 }
 .pagina-produto .f_product-col-2-fix{
     /* max-width:650px; */
-    max-width: 59%;
+    max-width: 58%;
 }
 
 .f_extra_content [theme-content]:not(:empty){margin-bottom:5rem}
