@@ -3837,10 +3837,12 @@ h4 + small,
 .produto-sobrepor{display:none}
 
 .pagina-produto .f_product-col-1{
-    max-width:calc(100% - 680px);
+    /* max-width:calc(100% - 680px); */
+    max-width:39%;
 }
 .pagina-produto .f_product-col-2-fix{
-    max-width:650px;
+    /* max-width:650px; */
+    max-width:59%;
 }
 
 .f_extra_content [theme-content]:not(:empty){margin-bottom:5rem}
