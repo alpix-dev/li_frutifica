@@ -1667,15 +1667,11 @@ theme.functions.sideCartSet = function(){
         })
     });
     //$('body').append('<div id="theme_sideCart-shadow"></div><div id="theme_sideCart"><div id="theme_sideCart-header"><button type="button" onclick="theme.functions.sideCartToggle()">'+ theme.icon.sideCartClose +'</button><span>'+ theme.lang.sideCartTitle +'</span></div><div id="theme_sideCart-content"></div><div id="theme_sideCart-footer"><a href="/carrinho/index" class="botao">Finalizar Compra</div></div></div>');    
-    
-	
-    //Backup - Sem a faixa de Frete Grátis
-    // $('body').append('<div id="theme_sideCart" class="theme_aside right"><div class="theme_aside-header" id="theme_sideCart-header"><button type="button" onclick="theme.functions.sideCartToggle()">'+ theme.icon.sideCartClose +'</button><span>'+ theme.lang.sideCartTitle +'</span></div><div id="theme_sideCart-content"></div><div id="theme_sideCart-footer"><a href="/carrinho/index" class="botao principal botao-comprar">Finalizar Compra</div></div></div>');
+    $('body').append('<div id="theme_sideCart" class="theme_aside right"><div class="theme_aside-header" id="theme_sideCart-header"><button type="button" onclick="theme.functions.sideCartToggle()">'+ theme.icon.sideCartClose +'</button><span>'+ theme.lang.sideCartTitle +'</span></div><div id="theme_sideCart-content"></div><div id="theme_sideCart-footer"><a href="/carrinho/index" class="botao principal botao-comprar">Finalizar Compra</div></div></div>');
     
 
 
-    //Faixa de Calculo de Frete Grátis
-    $('body').append('<div id="theme_sideCart" class="theme_aside right"><div class="theme_aside-header" id="theme_sideCart-header"><button type="button" onclick="theme.functions.sideCartToggle()">'+ theme.icon.sideCartClose +'</button><span>'+ theme.lang.sideCartTitle +'</span></div><div id="theme_sideCart-content"><div style="width: 100%; background: #E4FF58; display: none; position: relative; bottom: 125px;"><div style="display: flex; justify-content: center; align-items: center; padding: 10px; gap: 10px;"><div><img src="https://cdn.awsli.com.br/568/568718/arquivos/delivery.png"></div><div><p id="faltamParaFreteGratis" style="margin: 0; font-size: 1rem; color: #006950; text-align: start; display: flex; align-items: end; gap: 5px;">Faltam<span style="color: #F26C5A; font-size: 20px;"> <strong class="sub_frete_gratis">R$297,01</strong></span></p><p class="ocultar_frete" style="margin: 0; font-size: 1rem; color: #006950; text-align: start; display: flex; align-items: end; gap: 5px;">para ganhar<strong style="font-size: 16px;"> FRETE GRÁTIS</strong></p></div></div></div></div><div id="theme_sideCart-footer"><a href="/carrinho/index" class="botao principal botao-comprar">Finalizar Compra</div></div></div>');
+    
 }
 theme.functions.sideCart = function(){
     //$('#theme_sideCart-content').html(html);
