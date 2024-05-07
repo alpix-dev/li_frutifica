@@ -714,7 +714,7 @@ theme.comoFunciona.itens.push({
 
 theme.perguntasFrequentes = [];
 theme.perguntasFrequentes.title = "Perguntas frequentes";
-theme.perguntasFrequentes.subtitle = "Ainda tem dúvidas? Abaixo, listamos as perguntas mais frequentes que recebemos. Caso tenha mais alguma dúvida, não hesite em entrar em contato conosco por meio do WhatsApp. Nossa equipe de atendimento está pronta para ajudar e fornecer as informações necessárias. Estamos aqui para tornar sua experiência com a Frutifica a melhor possível!";
+theme.perguntasFrequentes.subtitle = "Ainda tem dúvidas? Ao lado, listamos as perguntas mais frequentes que recebemos. Caso tenha mais alguma dúvida, não hesite em entrar em contato conosco por meio do WhatsApp. Nossa equipe de atendimento está pronta para ajudar e fornecer as informações necessárias. Estamos aqui para tornar sua experiência com a Frutifica a melhor possível!";
 theme.perguntasFrequentes.itens = [];
 theme.perguntasFrequentes.itens.push({
     title: 'Pode fazer alteração dentro do kit? ',
