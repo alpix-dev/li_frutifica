@@ -676,7 +676,8 @@ theme.build.account = function(template){
 
 }
 
-theme.formas_pag_entrega = ['Cartao-de-Debito','Cartao-de-Credito','Ticket','VR-Ben','VR-Alelo','VR-Sodexo','VA-Sodexo', 'VR-Caju', 'Link-de-Pagamento:VR-Flash', 'Link-de-Pagamento:VR-IFood', 'Link-de-Pagamento:VA-IFood', 'VA-Caju', 'UP-Beneficios', 'VR-Verocard', 'VA-Verocard'];
+// theme.formas_pag_entrega = ['Cartao-de-Debito','Cartao-de-Credito','Ticket','VR-Ben','VR-Alelo','VR-Sodexo','VA-Sodexo', 'VR-Caju', 'Link-de-Pagamento:VR-Flash', 'Link-de-Pagamento:VR-IFood', 'Link-de-Pagamento:VA-IFood', 'VA-Caju', 'UP-Beneficios', 'VR-Verocard', 'VA-Verocard'];
+theme.formas_pag_entrega = ['Cartao-de-Debito','Cartao-de-Credito','Ticket','VR-Ben','VR-Alelo','VR-Sodexo','VA-Sodexo', 'VR-Caju', 'VA-Caju', 'UP-Beneficios', 'VR-Verocard', 'VA-Verocard'];
 
 
 theme.titulos = [];
